@@ -1,0 +1,917 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fswiss\fcharset0 Helvetica-Bold;\f2\fnil\fcharset0 HelveticaNeue;
+\f3\fnil\fcharset0 HelveticaNeue-Bold;\f4\fmodern\fcharset0 Courier-Bold;\f5\fmodern\fcharset0 Courier;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red0\green0\blue0;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0\c90196;\cssrgb\c100000\c100000\c100000;\cssrgb\c0\c0\c0\c90196;
+}
+\paperw11900\paperh16840\margl1440\margr1440\vieww30040\viewh18340\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs32 \cf0 Password: t6b7_JS9Wp3lepwS8RcbCMZl3C3AlHtw_cOsJ9LL4QM\
+\
+Git Repo: {\field{\*\fldinst{HYPERLINK "https://github.com/LinkedInLearning/learning-neo4j-2483130"}}{\fldrslt https://github.com/LinkedInLearning/learning-neo4j-2483130}}\
+\
+Source: {\field{\*\fldinst{HYPERLINK "https://www.linkedin.com/learning/introduction-to-neo4j/navigating-the-world-of-connected-data?contextUrn=urn%3Ali%3AlyndaLearningPath%3A62325431498e28d12bf0bd33&u=88123954"}}{\fldrslt https://www.linkedin.com/learning/introduction-to-neo4j/navigating-the-world-of-connected-data?contextUrn=urn%3Ali%3AlyndaLearningPath%3A62325431498e28d12bf0bd33&u=88123954}}\
+\
+Neo4j/sandbox - {\field{\*\fldinst{HYPERLINK "https://b87ab1e9fce6a1cc0bfeb839025561f2.neo4jsandbox.com/browser/?preselectAuthMethod=SSO&connectURL=b87ab1e9fce6a1cc0bfeb839025561f2.bolt.neo4jsandbox.com%3A443"}}{\fldrslt https://b87ab1e9fce6a1cc0bfeb839025561f2.neo4jsandbox.com/browser/?preselectAuthMethod=SSO&connectURL=b87ab1e9fce6a1cc0bfeb839025561f2.bolt.neo4jsandbox.com%3A443}}\
+\
+Intro Cypher:   Cypher is a graph query language for Neo4j. And as well as being used in Neo4j.\
+\
+                       It is a declarative language. So this means, unlike an imperative language where you need to give specific instructions as to how to execute a query, a declarative language you specify what query you'd like to run, and the query engine figures out how exactly to implement it. And within Cypher, everything is a pattern. Always think pattern. So a lone node is a pattern. A pair of nodes with a relationship is a pattern. Or a path is a pattern.\
+\
+\
+Let's take a look at how we represent nodes within Cypher. \
+\
+1.Everything in round brackets in Cypher is a node. \
+    () - a node\
+\
+2. If I want to have a reference to a node, so think of reference as a variable somewhere where we store information about the node as part of our query, we include a reference name inside round brackets.\
+   (ReferenceA) -  reference variable\
+\
+3. If we want to refer to a label of the node, so think about our categories, then we do that using colon label. So everything to the right of a colon is a label. And in our example here we've got a reference and a label for our node.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0   (ReferenceA: Lable) \
+\
+4.   if we want to refer to properties within our node, we use curly braces, and we use key value pair syntax for that.\
+   (ReferenceA: Lable \{propertykey:value\}) \
+\
+ So in our final example here, we've got a reference, we've got a label to our node, and we've got a property.\
+\
+\
+5. Let's take a look at how we represent relationships in Cypher. So there are a number of ways to represent them. \
+\
+    5.1  If you're just interested in how two nodes are connected and you're not interested in the direction of the relationship or any types,  then you can just use dash dash as you've got here on the left.\
+          \'97 \'97   \
+    5.2  If you are interested in the direction of the relationship then you can use dash dash and an arrowhead, \
+          \'97 \'97 >  \
+    5.3 and we use square brackets to represent relationships in Cypher. So this would be for relationship types or properties and you can have them just empty as well.\
+          \'97[ ]\'97 >     - (also)  A relationship with direction\
+\
+    5.4 so let's say we want to get back some information about the properties in there, then we can include a reference inside the square brackets in a similar fashion we did for nodes being a reference name inside round brackets. \
+         \'97[refB]\'97>\
+     5.5 If we want to refer to the type of relationship, then we use colon type. So everything to the right of the colon inside the square brackets refers to the relationship type. And this example here we've also got a reference for that relationship.\
+            \'97[refB:Type]\'97> \
+     5.6 if we want to refer to properties inside a relationship, we use curly braces in the same way we did for nodes, using key value pairs. And in our final example here we've got a relationship that has a reference or a variable for that relationship. We've got a type indicated by the colon type. We've got properties for that relationship included in the curly braces, and we've got a direction for that relationship.\
+\
+Example:\
+\
+
+\f1\b //You, a Learner, SAYS Greeting with message 'Hello, World!'
+\f0\b0 \
+CREATE (learner:Learner \{name:'Lju'\}),\
+       (hello:Greeting \{message:'Hello, World!'\}),\
+       (learner)-[r:SAYS]->(hello)\
+      \
+
+\f1\b //Return the learner
+\f0\b0 \
+  MATCH (me:Learner)\
+  RETURN me\
+\
+
+\f1\b //Return the whole pattern
+\f0\b0 \
+  MATCH (learner:Learner)-[rel]-(greeting:Greeting)\
+  RETURN *\
+\
+\
+Example: \
+\
+
+\f1\b //You, a learner with name <your name>, says greeting with message 'Nice to meet you!'
+\f0\b0 \
+\
+CREATE (learner:Learner \{name:'Lju'\})-[:SAYS]->(greeting:Greeting \{message:'Nice to meet you!'\})\
+
+\f1\b \
+//Return the learner , this will show in graph format
+\f0\b0 \
+  MATCH (me:Learner)\
+  RETURN me\
+
+\f1\b\fs38 \
+\
+## Create Data Base\
+\
+
+\fs32 //Delete data (if any)
+\f0\b0 \
+MATCH (n) DETACH DELETE n;\
+\
+
+\f1\b //Add constraints
+\f0\b0 \
+CREATE CONSTRAINT IF NOT EXISTS FOR (student:Student) REQUIRE student.id IS UNIQUE; \
+CREATE CONSTRAINT IF NOT EXISTS FOR (state:State) REQUIRE state.name IS UNIQUE; \
+CREATE CONSTRAINT IF NOT EXISTS FOR (gradYear:Year) REQUIRE gradYear.value IS UNIQUE; \
+CREATE CONSTRAINT IF NOT EXISTS FOR (program:Program) REQUIRE program.name IS UNIQUE; \
+CREATE CONSTRAINT IF NOT EXISTS FOR (country:Country) REQUIRE country.name IS UNIQUE;\
+\
+
+\f1\b //Load data. We will use several statements to minimise eager queries and flat file downloads.  {\field{\*\fldinst{HYPERLINK "https://raw.githubusercontent.com/LinkedInLearning/learning-neo4j-2483130/main/roux.csv"}}{\fldrslt https://raw.githubusercontent.com/LinkedInLearning/learning-neo4j-2483130/main/roux.csv}}\
+//Note that this may not be how you'd typically do this!
+\f0\b0 \
+LOAD CSV WITH HEADERS FROM "https://raw.githubusercontent.com/LinkedInLearning/learning-neo4j-2483130/main/roux.csv" AS row\
+CREATE  (student:Student \{id:row.ID, last:row.LAST, first:row.FIRST, email:row.EMAIL, newsletter:row.NEWSLETTER,\
+	state:row.STATE, grad:tointeger(row.GRADYEAR), prog:row.PROGRAM, country:row.STUDIEDIN, gpa:tofloat(row.GPA)\});\
+\
+
+\f1\b //Create and link the State note
+\f0\b0 \
+MATCH (student:Student)\
+MERGE (state:State \{name:student.state\})\
+WITH student, state\
+CREATE (student)-[:FROM]->(state)\
+REMOVE student.state;\
+\
+
+\f1\b //Create and link the Year node
+\f0\b0 \
+MATCH (student:Student)\
+MERGE (grad:Year \{value:student.grad\})\
+WITH student, grad\
+CREATE (student)-[:GRADUATED_IN]->(grad)\
+REMOVE student.grad;\
+\
+
+\f1\b //Create and link the Program node
+\f0\b0 \
+MATCH (student:Student)\
+MERGE (prog:Program \{name:student.prog\})\
+WITH student, prog\
+CREATE (student)-[:STUDIED]->(prog)\
+REMOVE student.prog;\
+\
+
+\f1\b //Create and link the Country node. Skip the n/a values
+\f0\b0 \
+MATCH (student:Student)\
+WHERE student.country <> 'n/a'\
+MERGE (country:Country \{name:student.country\})\
+WITH student, country\
+CREATE (student)-[:STUDIED_ABROAD_IN]->(country)\
+REMOVE student.country;\
+\
+MATCH (student:Student)\
+WHERE student.country IS NOT NULL\
+REMOVE student.country;\
+\
+
+\f1\b //Create grade categories (Grade node) and link with GPA score as relationship property
+\f0\b0 \
+WITH [[2.00,2.33,'C'],[2.33,2.67,'C+'],[2.67,3.00,'B'],[3.00,3.33,'B+'],[3.33,3.67,'A-'],[3.67,4.00,'A'],[4.00,4.00,'A+']] AS ranges\
+UNWIND ranges AS range\
+CREATE (:Grade \{from:range[0], to:range[1], grade:range[2]\});\
+\
+MATCH (student:Student),\
+      (grade:Grade)\
+	WHERE student.gpa>=grade.from AND student.gpa < grade.to\
+CREATE (student)-[:OBTAINED \{gpa:student.gpa\}]->(grade)\
+REMOVE student.gpa;
+\fs38 \
+\
+
+\f1\b\fs40 ## Queries
+\f0\b0\fs38 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\b\fs32 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 ## MATCHing nodes
+\b0\fs28 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs38 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+
+\f1\b\fs34 //Return all nodes in the database (limit to 10 results)
+\f0\b0 \
+MATCH (n)\
+RETURN n LIMIT 10\
+
+\f1\b \
+//Return all nodes that have a Student label (limit to 10 results)
+\f0\b0 \
+MATCH (n:Student)\
+RETURN n LIMIT 10\
+\
+
+\f1\b //Return all nodes that have a property first (name) with value 'Alia'
+\f0\b0 \
+MATCH (n \{first:'Alia'\})\
+RETURN n\
+\
+
+\f1\b //Return all nodes that have a Student label and property first with value 'Alia'\
+//This query should be faster when we use a label!
+\f0\b0 \
+MATCH (n:Student \{first:'Alia'\})\
+RETURN n\
+\
+
+\f1\b //Return all nodes that have a Student label and property first with value 'Alia'
+\f0\b0 \
+//We can also use WHERE\
+MATCH (n:Student)\
+WHERE n.first = 'Alia'\
+RETURN n\
+\
+
+\f1\b //Return all Year nodes after 2006
+\f0\b0 \
+MATCH (n:Year)\
+WHERE n.value > 2006\
+RETURN n
+\f1\b\fs38 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs34 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 ## MATCHing nodes and relationships
+\f2\b0\fs28 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b\fs32 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+//Return all students with the first name Alia who've studied abroad
+\f0\b0 \
+MATCH (s:Student \{first:'Alia'\})--(c:Country)\
+RETURN *\
+\
+
+\f1\b //Return all students with the first name Alia who have studied abroad \
+//This query should be faster when we use a relationship type and direction!
+\f0\b0 \
+MATCH (s:Student \{first:'Alia'\})-[:STUDIED_ABROAD_IN]->(c:Country)\
+RETURN *\
+\
+
+\f1\b //Return all students with a GPA above 3.98
+\f0\b0 \
+MATCH (s:Student)-[r:OBTAINED]->()\
+WHERE r.gpa >3.98\
+RETURN s.first, s.last, r.gpa\
+
+\f1\b \
+//Return all students with firstname Alia with a GPA above 3.0
+\f0\b0 \
+MATCH (s:Student)-[r:OBTAINED]->()\
+WHERE r.gpa >3.0 AND s.first = 'Alia'\
+RETURN s.first, s.last, r.gpa\
+\
+
+\f1\b //Return all students with firstname Alia with a GPA above 3.0\
+//We can change our references using AS
+\f0\b0 \
+MATCH (s:Student)-[r:OBTAINED]->()\
+WHERE r.gpa >3.0 AND s.first = 'Alia'\
+RETURN s.first AS Name, s.last AS `Family Name`, r.gpa AS GPA\
+\
+\
+
+\f1\b\fs38 ## 
+\f3\fs34 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Counting and aggregating data\
+\
+   
+\f2\b0 \cf2 \cb3 \strokec2 1.  Count()     // \cf4 \cb3 \outl0\strokewidth0 First, we have count, as the name suggests, this will count something for us. This is commonly used when counting out how many nodes or relationships there are in the given situation.\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+   2. Collect()   // \cf4 \cb3 \outl0\strokewidth0 Collect allows us to gather together nodes, relationships, properties, or other data into an array, either for outputting in a certain way or for further querying and processing.  \
+   3. Size()       // Size allows us to find out how big an array is, along with the length of the string.
+\f3\b \cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+  
+\f2\b0 \cf2 \cb3 \strokec2  4. LIMIT()    // \cf4 \cb3 \outl0\strokewidth0  LIMIT, as we've already seen, can help us limit how much data we output in a query or use for further querying. This is useful when we just want to look at a sample of data.\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+   5. ORDER BY   // \cf4 \cb3 \outl0\strokewidth0  Finally, ORDER BY as the name suggests, will order data for us either in ascending order which is by default or in descending order.\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f3\b \cf4 ## What with the WITH?\
+     
+\f2\b0  WITH allows us to chain queries together. Think of WITH being conceptually the same as RETURN but allowing us to make changes and add new data for later on in the query, it allows us to keep variables for use as well as being able to mutate data as required. For example, when we use the collect, you can also use the WHERE clause to filter down specific results. So let's take a look at an example of using WITH and WHERE.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f3\b \cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+
+\f2\b0 \cf2 \cb3 \strokec2  Example: \
+
+\f3\b \cf2 \cb3 \strokec2 \
+
+\f2\fs32 //How many students studied abroad?
+\b0 \cf2 \cb3 \strokec2 \
+MATCH (s:Student)-[:STUDIED_ABROAD_IN]->(c:Country)\
+RETURN count(s) AS `Students Abroad`\
+\
+
+\b \cf2 \cb3 \strokec2 //Find and collect all students with firstname Alia or Colleen who studied abroad and in which country
+\b0 \cf2 \cb3 \strokec2 \
+MATCH (s:Student)-[:STUDIED_ABROAD_IN]->(c:Country)\
+WHERE s.first = 'Alia' OR s.first = 'Colleen'\
+RETURN collect(s.first + ' ' + s.last) AS Name, c.name AS Country\
+\
+
+\b \cf2 \cb3 \strokec2 //Find how many students who studied abroad per country
+\b0 \cf2 \cb3 \strokec2 \
+MATCH (s:Student)-[:STUDIED_ABROAD_IN]->(c:Country)\
+WITH collect(s) AS students, c\
+RETURN size(students) AS `Number of Students`, c.name AS Country\
+\
+
+\b \cf2 \cb3 \strokec2 //RETURN 10 students in ascending alphabetical order on first name
+\b0 \cf2 \cb3 \strokec2 \
+MATCH (s:Student)\
+RETURN s.first, s.last ORDER BY s.first LIMIT 10\
+
+\b \cf2 \cb3 \strokec2 \
+//Find how many students who studied abroad per country, ordered from highest to lowest
+\b0 \cf2 \cb3 \strokec2 \
+MATCH (s:Student)-[:STUDIED_ABROAD_IN]->(c:Country)\
+WITH collect(s) AS students, c\
+RETURN size(students) AS Students, c.name AS Country ORDER BY Students DESC\
+\
+
+\b \cf2 \cb3 \strokec2 //WITH and WHERE example\
+//Find countries where at least 150 students studied there
+\b0\fs34 \cf2 \cb3 \strokec2 \
+MATCH (s:Student)-[:STUDIED_ABROAD_IN]->(c:Country)\
+WITH collect(s) AS students, c WHERE size(students) >= 150\
+RETURN size(students) AS `Number of Students`, c.name AS Country\
+\
+\
+
+\f3\b\fs46 \cf2 \cb3 \strokec2 ## 
+\fs40 Beyond one hop
+\f2\b0\fs28 \
+
+\fs34 \cf2 \cb3 \strokec2 \
+
+\f3\b\fs30 \cf2 \cb3 \strokec2 //Find all students who studied abroad in Greece in 2011
+\f2\b0\fs28 \
+ So if I wanted to find all of the students who studied abroad, in Greece, in 2011, I could put something together like this. So here I am matching a year node with the value of 2011 that is connected to a student node, which is connected to a country node with the value of Greece, and here I'm going to return the first and last names of all of those students. \
+\
+MATCH (s:Student)-[:STUDIED_ABROAD_IN]->(:Country \{name:"Greece"\}),\
+      (s)-[:GRADUATED_IN]->(:Year \{value:2011\})\
+RETURN s.first, s.last\
+\
+
+\f3\b\fs30 //Find all students who studied abroad in Greece in 2011
+\f2\b0\fs28 \
+MATCH (:Year \{value:2011\})<-[:GRADUATED_IN]-(s:Student)-[:STUDIED_ABROAD_IN]->(:Country \{name:"Greece"\})\
+RETURN s.first, s.last\
+\
+
+\b //Find all students that are 2 hops away from student Ardella Eaton
+\b0 \
+\
+
+\f3\b\fs30 Explanation:
+\f2\b0\fs28  Another thing we can do is we can say we don't necessarily want to specify specific relationships, but what we do know is we want to go a number of hops away from our initial node. So if I wanted to find out all of the students that are two hops away from Ardella Eaton, as an example, I could do something like this. So on the left, I've got my Ardella Eaton student nodes, and a reference of s1 for that one. On the right, I have my s2 student node. So I'm telling the engine that I just want to bring back student nodes, and I've got a reference of s2 and in the middle there, you'll notice we've got something in square brackets. So we're using square brackets, which means we are doing something about the relationship, and here we've got *0..2. So if you remember, star means everything. So that would say, look at all of the relationships, and then the 0..2 says, well, actually, we're going to scale that down to the number of hops. So star is saying, keep hopping, and then 02 says, well, we're going to put a bound behind that. So 0. So from the Ardella node up to two hops away and bring back those student nodes, and if you remember our data model, you'll remember that the intermediate node we're going to be hopping through, to get to our two hops away, will be something like program or year or state and so forth, and then we're going to return the first and last name for those students. You'll notice we're using a DISTINCT keyword there. So all DISTINCT means is just bring us back the distinct results. So it could happen that we have some students that have more than one link with Ardella. So for example, maybe they're from the same state and studied the same course, and we're just saying, just bring back one instance of them, not multiple repeats.\
+\
+MATCH (s1:Student \{first:"Ardella", last:"Eaton"\})-[*0..2]-(s2:Student)\
+RETURN DISTINCT s2.first, s2.last\
+\
+
+\f3\b\fs30 //Find all students that are 2 hops away from student Ardella Eaton based on program they're on
+\f2\b0\fs28 \
+MATCH (s1:Student \{first:"Ardella", last:"Eaton"\})-[:STUDIED *0..2]-(s2:Student)\
+RETURN s2.first, s2.last\
+
+\b \
+//Find the shortest path between Ardella Eaton and Christiana Boone
+\b0 \
+\
+MATCH (s1:Student \{first:'Ardella', last:'Eaton'\}),\
+      (s2:Student \{first:'Christiana', last:'Boone'\}),\
+      p=shortestpath((s1)-[*]-(s2)) //p is a path consisting of nodes and relationships\
+RETURN p\
+
+\f0\fs32 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f3\b\fs30 \cf4 \cb3 \expnd0\expndtw0\kerning0
+Explanation: 
+\f0\b0\fs32 \cf0 \cb1 \kerning1\expnd0\expndtw0  let's have a look at a simple shortest path example, but let's say we want to find out the shortest path between Ardella Eaton and Christiana Boone. So what we're doing here is matching our Adela node, matching our Christiana node, and we've got references for them of s1 and s2 respectively, and then we're going to use a function within Cypher, called shortestpath, and that shortestpath function is basically saying, search for the pattern of s1 to s2. Notice we've got that start in the square bracket. So that's saying unlimited number of hops between nodes to find the two paths, and the shortest path query will basically be smart enough to know, right, this path I'm looking at is longer than the one I've already got. So I'm not going to bother. So it's going to keep going through until it finds the shortest path or a shortest path between those two nodes. So one thing you may spot here is we have this p=. So anything that is a reference name equals and then the rest of your pattern, that's what we call a path, and path is just basically something that consists of nodes and relationships in it. So we're going to return that path, which we've called p. So let's have a look, and there we go. We have found a shortest path between Ardella and Christiana, and we can see that path consists of Ardella and Lucinda having a common grade of B, and Lucinda and Christiana have a common program of fashion and textile. As uncle Ben of Marvel's Spider-Man very wisely said, "With great power comes great responsibility," and this is very true when it comes to traversing relationships. Be aware that there are penalties for poorly-written queries. A poorly-written query may accidentally traverse the entire graph, can cause queries to run very slowly and can provide unexpected results. So what can you do to hop with care? Try to use relationship types and directions wherever possible and where it makes sense. The query engine will use that information to apply a pre-filter of data.  Also, try to limit how many traversals to make and when it makes sense to do so. So do think about using star and star with a range with extreme care, and a quick note on the above. This doesn't always apply if you're using graph algorithms, such as shortest path, because they are designed to run efficiently on the graph.\
+\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b\fs38 \cf0 ## Question: 
+\f0\b0\fs32 \
+\
+
+\f1\b\fs34 //How many students in total are there?
+\f0\b0\fs32 \
+MATCH (s:Student)\
+RETURN count(s)\
+\
+
+\f1\b\fs34 //How many students have siged up to the newsletter?
+\f0\b0\fs32 \
+MATCH (s:Student \{newsletter: 'YES'\})\
+RETURN count(s)\
+//or\
+//MATCH (s:Student)\
+//WHERE s.newsletter = 'YES'\
+//RETURN count(s)\
+\
+
+\f1\b //How many students have studied abroad?
+\f0\b0 \
+MATCH (s:Student)-[:STUDIED_ABROAD_IN]->(:Country)\
+RETURN count(s)\
+\
+
+\f1\b\fs34 //What's the most common GPA score?
+\f0\b0\fs32 \
+MATCH (s:Student)-[r:OBTAINED]->(:Grade)\
+WITH collect(s) AS students, r.gpa AS gpa\
+RETURN size(students) AS common, gpa ORDER BY common DESC\
+\
+
+\f1\b\fs34 //How many students from Georgia have gotten an A grade in Animation?
+\f0\b0\fs32 \
+MATCH (s:Student)-[:FROM]->(:State \{name:'Georgia'\}),\
+      (s)-[:STUDIED]->(:Program \{name:'Animation'\}),\
+      (s)-[:OBTAINED]->(:Grade \{grade:'A'\})\
+RETURN count(s)\
+\
+1. 
+\f2\fs36 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 What would we expect the following query to do:  
+\f4\b\fs32\fsmilli16375 \cb1 MATCH (s:Student)-[:STUDIED_IN]->(c:Country \{name:'France'\}) RETURN c
+\f5\b0 \
+  \'97 
+\f2\fs32 \cb3 return the node with label Country and property name:'France' if any of the nodes with label Student had a STUDIED_IN relationship with it
+\f5\fs32\fsmilli16375 \cb1 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs36 \cf2 \cb3 \strokec2 2. What would we expect the following query to do: 
+\f4\b\fs32\fsmilli16375 \cb1 MATCH (student:Student) RETURN student
+\f0\b0\fs32 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0      \'97 
+\f2 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 find all of the nodes with the Student label, assign a reference with the results to student, and then return all of the nodes referenced by student\
+3. 
+\fs36 Do we need to worry about graph traversals?\
+    \'97 
+\fs32 Yes, poorly written queries may travel the whole graph or provided unexpected results.\
+\
+\
+\
+
+\f3\b\fs40 \cf2 \cb3 \strokec2 ## 
+\fs36 CREATE  your data\
+        
+\f2\b0 \cf2 \cb3 \strokec2 Creating your data. Up until now, we've been looking at how to query our data, but wouldn't it be great if we could just add some of our own? So let's have a look at how we create data in Cypher. To add new data, we use the CREATES keywords. You'll be pleased to hear that we'll be using the same syntax that we've been using for MATCH. As a result, everything is a pattern. So as with MATCH, everything to the right of CREATE is a pattern. Be that a lone node or nodes with relationships. Do bear in mind that CREATE does just that it creates data. So there'll be no checks to see whether the data already exists. If you want to avoid duplicate data, you would need to check first whether that data exists and you can do that using MATCH. There is also a MERGE keyword in Cypher, which behaves similarly to an UPSERT if you're familiar with them, however, MERGE is outside the scope of this course. One key difference between MATCH and CREATE, you will need to specify a RELATIONSHIP_TYPE and direction when you are creating them. And whilst you don't have to use a label for your nodes, you really should consider using them. 
+\f3\b \cf2 \cb3 \strokec2 \
+
+\f0\b0\fs32 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+
+\f1\b\fs34 //Different types of nodes
+\f0\b0\fs32 \
+//CREATE () //This will create a blank node with no label or properties!\
+//CREATE (:Learner) //This will create a node with label Learner, but with no properties\
+\
+
+\f1\b\fs34 //Create a node
+\f0\b0\fs32 \
+CREATE (:Learner \{name:'Lju'\}) //This will create a node with label Learner and property name=Lju\
+\
+
+\f1\b\fs34 //Create another node
+\f0\b0\fs32 \
+CREATE (:Learner \{name:'Alia'\})\
+\
+
+\f1\b\fs34 //Creating a relationship between existing nodes
+\f0\b0\fs32 \
+MATCH (lju:Learner \{name:'Lju'\})\
+MATCH (alia:Learner \{name:'Alia'\})\
+CREATE (lju)-[:KNOWS \{since:20210101\}]->(alia)\
+
+\f1\b \
+//Creating two nodes and a relationship in one go!
+\f0\b0 \
+CREATE (:Learner \{name:'Jo'\})-[:KNOWS]->(:Learner \{name:'Su'\})\
+\
+//Bring back all the learners to see what we've created\
+MATCH (l:Learner)\
+RETURN l\
+\
+
+\f1\b\fs36 \
+## 
+\f2\fs32 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Updating and REMOVE your data
+\b0\fs28 \
+
+\f0\fs32         Updating and removing your data. Now let's take a look at how we go about updating our data. The majority of our updates are handled with the 
+\f1\b SET
+\f0\b0  keyword and we can use the 
+\f1\b SET
+\f0\b0  keyword to update existing properties add new properties and add new labels. And yes, you can have more than one label on a node. There is however, one exception, updating relationship types with SET is not possible. We'll show you how to update relationship types in the next video. So if you'd like to discard something we will use the 
+\f1\b REMOVE
+\f0\b0  keyword. You can use it to remove a property and you can use it to 
+\f1\b remove
+\f0\b0  
+\f1\b a node label
+\f0\b0 . So let's now take a look at some examples of updating and removing data.\
+\
+
+\f1\b //Update the date Lju has known Alia
+\f0\b0 \
+MATCH (:Learner \{name:'Lju'\})-[r:KNOWS]->(:Learner \{name:'Alia'\})\
+SET r.since = 19990101\
+\
+
+\f1\b //Add a twitter handle property to Lju
+\f0\b0 \
+MATCH (lju:Learner \{name:'Lju'\})\
+SET lju.twitter = 'ellazal'\
+\
+
+\f1\b //Add an OffCampus label to Alia
+\f0\b0 \
+MATCH (alia:Learner \{name:'Alia'\})\
+SET alia:OffCampus\
+\
+
+\f1\b //Bring back Alia and Lju to see what we've changed
+\f0\b0 \
+MATCH (l:Learner)\
+WHERE l.name = 'Alia' or l.name = 'Lju'\
+RETURN l\
+\
+
+\f1\b //Remove Lju's twitter handle property
+\f0\b0 \
+MATCH (lju:Learner \{name:'Lju'\})\
+REMOVE lju.twitter\
+\
+
+\f1\b //Remove Alia's OffCampus label
+\f0\b0 \
+MATCH (alia:Learner \{name:'Alia'\})\
+REMOVE alia:OffCampus\
+\
+
+\f1\b //Bring back Alia and Lju to see what we've removed
+\f0\b0 \
+MATCH (l:Learner)\
+WHERE l.name = 'Alia' or l.name = 'Lju'\
+RETURN l\
+\
+
+\f1\b\fs38 ## 
+\f3\fs34 DELETE your data
+\f2\b0\fs28 \
+
+\f0\fs32 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0   \
+     Deleting your data. Let's now have a look at how we'd go about removing data. To do this, we will use the 
+\f1\b DELETE
+\f0\b0  keyword and it can be used to remove nodes and relationships. To remove data, we'll first match what we want to work on. And as you remember by now, everything is a pattern. And then if we want to delete the nodes, we will need to use 
+\f1\b DETACH DELETE
+\f0\b0 . This means we need to detach the nodes from any existing relationships before we delete them or relationships, where we match the relationship in question we want to change, we will just need to use delete. Let's have a look at some examples in the browser. So I'm not going to run this query but I'm just going to quickly explain what's going on. If we wanted to delete everything in the database, we would use this statement. So match brackets N as you know by now, this will match everything in the database and give it a reference of the name N and then DETACH DELETE N, that's going to detach all of the relationships to all of the nodes found in the database and then delete them. \
+\
+
+\f1\b //Delete data (if any)
+\f0\b0 \
+MATCH (n) DETACH DELETE n;\
+\
+1. If I wanted to just delete all learner nodes with the property of name Lu.\
+\
+Cmd: 
+\f1\b MATCH(l:Learner \{name:'Lju'\}) DETACH DELETE l\
+\
+\
+
+\f0\b0 2. If I wanted to delete the relationship between Joe and Sue, I would match that pattern there. So you've got the learner node with the name of Jo, the learner node with the name of Su. I've got the relationship between the two of them, that node relationship. And I've got a reference of R and then here all I need to do is do DELETE R\
+CMD:   
+\f1\b MATCH(:Learner \{name:'
+\f0\b0 Jo
+\f1\b \'92\})-[r:KNOWS]->(:Learner \{name: \'91
+\f0\b0 Su
+\f1\b \'92\}) DETACH DELETE r\
+
+\f0\b0 \
+3. if I wanted to delete all nodes in the database that've got a learner label, then I would do it like this. So match our learner. That's going to match all of the nodes for learner label and then DETACH DELETE L will detach the relationships and then delete all of those nodes.\
+CMD:  
+\f1\b MATCH(l:Learner) DETACH DELETE l
+\f0\b0 \
+\
+CREATE (:Learner \{name:'Lju'\})-[:KNOWS \{since:20210101\}]->(alia:Learner \{name:'Alia'\})\
+CREATE (:Learner \{name:'Jo'\})-[:KNOWS]->(:Learner \{name:'Su'\})\
+\
+
+\f1\b //DELETE everything
+\f0\b0 \
+//MATCH (n) \
+//DETACH DELETE n\
+\
+
+\f1\b //DELETE just the Lju node
+\f0\b0 \
+MATCH (l:Learner \{name:'Lju'\})\
+DETACH DELETE l\
+\
+
+\f1\b //DELETE the relationship between Jo and Su
+\f0\b0 \
+MATCH (:Learner \{name:'Jo'\})-[r:KNOWS]->(:Learner \{name:'Su'\})\
+DELETE r\
+\
+
+\f1\b //DELETE all the learner nodoes
+\f0\b0 \
+MATCH (l:Learner)\
+DETACH DELETE l\
+\
+
+\f1\b\fs34 ## Updating Relationship Type\
+\
+
+\f0\b0        So, let's talk about updating relationship types. Unfortunately, there is no straightforward way to rename your relationship types. You will need to delete them and then recreate those relationships. So let's take a look at the flow of how we would do this. We would first match the two nodes whose relationship type you would like to update. You would then create the new relationship between those two nodes and then finally you'd delete that existing relationship you no longer want.\
+\
+1. So let's say we've decided we want to change the relationship type between Jo and Su from 
+\f1\b knows
+\f0\b0  to 
+\f1\b friend
+\f0\b0 . This is a way we'd do it.  I'm matching and creating a reference for Jo, Su and the relationship there that joins them. So first of all, I'm going to create that new relationship between the two of them. So I'm using their references for Jo and Su and I'm creating that friend relationship type between the two of them and then I'm going to delete that old relationship. So I'm using the reference of R and then DELETE R.\
+\
+CMD: \
+
+\f1\b //Create the Jo and Su nodes and relationship
+\f0\b0 \
+CREATE (:Learner \{name:'Jo'\})-[:KNOWS]->(:Learner \{name:'Su'\})\
+
+\f1\b \
+//Update the KNOWS relationship to a FRIEND relationship
+\f0\b0 \
+MATCH (l1:Learner \{name:'Jo'\})-[r:KNOWS]->(l2:Learner \{name:'Su'\})\
+CREATE (l1)-[:FRIEND]->(l2) //create the new relationship\
+DELETE r //remove the old one\
+\
+
+\f1\b //Have a look at the new relationship type
+\f0\b0 \
+MATCH (l1:Learner \{name:'Jo'\})-[r]->(l2:Learner \{name:'Su'\})\
+RETURN *
+\fs32 \
+\
+\
+
+\f1\b Chapter Question:
+\f0\b0 \
+\
+
+\f1\b //Add a new property to Student called name which uses first and last
+\f0\b0 \
+MATCH (s:Student)\
+SET s.name = s.first + ' ' + s.last\
+\
+
+\f1\b //Which country is the most popular for Graphic Design?
+\f0\b0 \
+MATCH (program:Program \{name:'Graphic Design'\})<-[:STUDIED]-(student:Student)-[:STUDIED_ABROAD_IN]->(country:Country)\
+
+\f1\b //You can have this instead!
+\f0\b0 \
+//MATCH (student:Student)-[:STUDIED_ABROAD_IN]->(country:Country),\
+//      (student)-[:STUDIED]->(program:Program \{name:'Graphic Design'\})\
+RETURN count(student) AS `Total students`, country.name AS Country \
+	ORDER BY `Total students` DESC\
+\
+
+\f1\b\fs34 Explanation:
+\f0\b0\fs32  I notice here I've shown there's at least two different ways that we could answer this question. So the first approach that I've used is to chain the program nodes with the name of graphic design to the student nodes over to the country node. And here, I'm returning the count of students. So it's counting the number of student nodes that we have in this query that's within that pattern. I'm going to give it an alias of total students. I am returning the country name with an alias of country and I'm ordering it by total students descending. So here, we find that China has the most number of students that studied graphic design.\
+\
+\
+
+\f1\b //Which country attracts the most A grades?
+\f0\b0 \
+MATCH (grade:Grade \{grade:'A'\})<-[:OBTAINED]-(:Student)-[:STUDIED_ABROAD_IN]->(country:Country)\
+RETURN count(grade) AS `Total students`, country.name AS Country  //we can count on grade as well!\
+	ORDER BY `Total students` DESC //we can add LIMIT 1 to only return one country\
+
+\f1\b \
+Explanation:
+\f0\b0  So I've used that same pattern of connecting the grade node with the property of grade equals A. It's student node to the country node. And this time, I've returned a count of grade as total students. So I'm going to quickly explain this. So you can do this because if you think about what's going on here, we're effectively creating that pattern or a path. And that path is from grade to country via students. So basically, however many number of students we have, we're going to have the same number of grades because one student has one grade. So, if that makes sense. So that's what's happening here and that's why we can also do a count on grade as well as a count on the student node. And as we can see here, Greece has the most number of students that obtained an A grade. \
+\
+\
+
+\f1\b //Classmates who took the same course in the same year in the same country
+\f0\b0 \
+MATCH (student:Student)-[:GRADUATED_IN]->(grad:Year),\
+      (student)-[:STUDIED]->(program:Program),\
+      (student)-[:STUDIED_ABROAD_IN]->(country:Country)\
+WITH grad.value AS Year, program.name AS Program, country.name AS Country, \
+	collect(student.name) AS Students WHERE size(Students) >=5\
+RETURN Year, Program, Country, Students\
+    ORDER BY Program, Year, Country\
+\
+
+\f1\b\fs34 Explanation:
+\f0\b0\fs32  the last problem that we were set was to go away and find classmates that took the same course in the same year in the same country, but we had to find where there was at least five students that met that criteria. So here, you can see the pattern that we've used. So here, I'm matching the student to graduation year. I'm then taking the reference for that student to match it to a program year. And I'm taking that same reference again to match them to a country. So this is going to make sure that they're all matching the same group. I'm then using the with statement. So I'm using the with statement to not only give aliases, so new names, to how we're going to refer to things, those new references, but also, I'm using collect to collect up all of the student names. So that's going to give me an array of student names, giving it an alias of students. And I'm now using that where clause within with to do a bit of filtering. And this filtering here is saying where the array of students has at least five names. And then I'm returning all of that back. And you don't have to do the order by. I've chosen to do it just to prettify my results.\
+\
+\
+\
+\
+Questiona:\
+\
+1. 
+\f2\fs36 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 What will the following query do? 
+\f4\b\fs32\fsmilli16375 \cb1 CREATE (s:Student \{name:'Jo'\})-[:STUDIED]->(c:Course \{name:'Animation'\})
+\f0\b0\fs32 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+      Ans: 
+\f2 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Create the nodes with the specified labels and properties and create a relationship of type STUDIED between them.\
+\
+2. 
+\fs36 What does the following query do? 
+\f4\b\fs32\fsmilli16375 \cb1 MATCH (s:Student \{name:'Jo'\}) REMOVE s:Student\
+  Ans: 
+\f2\b0\fs32 \cb3 Find all nodes with label Student and property name:'Jo' and then remove the Student label from all of them.\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\pard\pardeftab720\partightenfactor0
+
+\b\fs28 \cf2 \cb3 \strokec2 ## CRUD and ACID properties of graph databases
+\b0\fs24 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\fs32 \cf2 \cb3 \strokec2 \
+ Let's talk about CRUD and ACID-Compatibility. \
+\
+CRUD, meaning 
+\b \cf2 \cb3 \strokec2 Create, Read, Update
+\b0 \cf2 \cb3 \strokec2  and 
+\b \cf2 \cb3 \strokec2 Delete
+\b0 \cf2 \cb3 \strokec2  operations are a standard for relational databases. You always have these. This is how you interact with the database. This is how you store your data. This is how you query your data. Maybe you want to update it. Or, you want to delete some data out of the database. Now, with NoSQL databases, this is sometimes a bit complicated. Because sometimes a NoSQL database doesn't allow you to update data, or it's difficult to update data. Sometimes the deletion aspect doesn't really work, or doesn't work as like with a relational database. For Neo 4j, this is very similar. It's completely compatible how it is with a relational database. You have full compatibility with CRUD operations, which is really awesome. As with all transactional databases.\
+\
+ ACID-Compliance is something very, very important. Meaning ACID, 
+\b \cf2 \cb3 \strokec2 Automicy, Consistency, Isolation
+\b0 \cf2 \cb3 \strokec2  and 
+\b \cf2 \cb3 \strokec2 Durability
+\b0 \cf2 \cb3 \strokec2 . The idea for automicy is that in a transaction, there are multiple statements. And once you execute these statements, either all of them pass, or none of them pass. So this is a very important topic that a transaction is seen as a unit, either all or none. Then you have consistency. This means that whenever you start a transaction, you do your statements, or your inserts, and then you commit the transaction. It always brings the database from one valid state to another valid state. So it's not like something is messed up within your database, and you will have long-term problems with your data in your database. Then you have isolation, which means that whenever you use your database, there will be a lot of transactions happening at the same time. And these transactions might not even see each other, or know from each other. But each of these transactions need to be processed in itself, and not affect other transactions that are happening. So your transaction is completely isolated from other transactions. Then you have durability, which means once something is committed, once a transaction is committed, and the data is in the database, or the data has been changed, the transaction will stay committed, even if there is a system failure. Which is very, very important, because think of it, you are writing data to a database and then you're committing it. The database shuts down, or you have an error under the server. So now, is your data still there? Or, is it lost? You need to be sure that you have durability.\
+\
+\
+
+\f3\b\fs38 \cf2 \cb3 \strokec2 ## 
+\fs30 Neo4j deployment and scaling explained
+\f2\b0\fs24 \
+
+\fs32 \cf2 \cb3 \strokec2 \
+\
+let's look at scaling. \
+\
+Scaling is something that is very important and that you are going to run into at some point. Typically with the database, \
+\
+Vertical Scaling: \
+\
+you start small and then once the load gets higher, you add more resources, so you scale vertically by making the database bigger. You would add RAM, you would add better CPUs. You would add a lot of storage into the server. The problem with vertical scaling of making this whole database bigger is that it's finite. Either technically you cannot scale anymore, or it will get too expensive to scale.\
+\
+Horizontal Scaling:\
+\
+ Now, this is where the beauty of NoSQL databases and Neo4j comes in. It's horizontal scaling. Instead of making the machines bigger, adding more machines to it. It's a very efficient way of scaling. It's a very simple way of scaling. Overall, I personally like this a lot. So let's look into the options and how to scale specifically.\
+\
+ When you look into scaling a Neo4j database, \
+\
+1. \cf4 \cb3 \outl0\strokewidth0 Sharding :\
+ \cf2 \cb3 \outl0\strokewidth0 \strokec2 you can start by sharding your database. Sharding means that your graph, so you have nodes and you have relationships between these nodes, you take a part of your graph and you put it on different servers. One part is living on these servers. Another part is living on other servers. And so once people query these, then the load will get distributed because some parts that are called all the time or on different set of servers than another part that is going to be called. This makes a lot of sense if you have multiple parts in your database that are independent from each other, and this way, you distribute the load. \
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf4 \cb3 \outl0\strokewidth0 2. Scaling:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+Scaling is another way you add more servers to increase the read and write performance, instead of getting bigger machines. This works very well in conjunction with charting. A cool way is actually the way number three here is working with replicas.\
+\
+Replica: \
+ This is something that is very unique to Neo4j. You can create read-only servers or replica servers. These servers have no writes to them. So they're just there for read capacity for delivering content to the consumers. It's a great way and very interesting way of scaling your infrastructure.\
+\
+\
+Chapter quiz: \
+1. Why is horizontal scaling better than vertical scaling?\
+   Ans: 
+\fs28 \cf2 \cb3 \strokec2 It allows you to scale without hardware limits. Horizontal scaling is not limited by maximum RAM, HDD, or CPU on a single machine.
+\fs32 \cf2 \cb3 \strokec2 \
+\
+2. What type of data store is Neo4j?\
+     Ans: 
+\fs28 \cf2 \cb3 \strokec2 a transactional data store. Neo4j is a transactional database, because of OLAP and ACID compliance
+\fs32 \cf2 \cb3 \strokec2 \
+\
+3. What is data at rest?\
+     Ans: 
+\fs28 \cf2 \cb3 \strokec2 the raw data on hard drives
+\fs32 \cf2 \cb3 \strokec2 \
+\
+4. What is a significant downside of Neo4j Bloom?\
+     Ans: 
+\fs28 \cf2 \cb3 \strokec2 Bloom has a node limit so it will not show you all the data.  You cannot inspect or filter nodes that are not in the UI because of the Node limit.
+\fs32 \cf2 \cb3 \strokec2 \
+\
+5. Where is Neo4j AuraDB hosted?\
+     Ans: 
+\fs28 \cf2 \cb3 \strokec2 on Google Cloud (GCP). AuraDB instances are hosted on GCP. There are multiple regions available for the user.
+\fs32 \cf2 \cb3 \strokec2 \
+
+\f3\b\fs38 \cf2 \cb3 \strokec2 \
+## 
+\fs30 Neo4j security best practices
+\f2\b0\fs24 \
+
+\fs32 \cf2 \cb3 \strokec2       Security is always very important and there are two aspects that you need to look into, security, that is first securing your infrastructure, basically isolating your database in your network. So you want to set up a way of security zones and firewalls to limit the access to your actual database. So you might want to just open certain ports in your network, or you might want to only have access to your database from certain IP addresses. It's very important to do this. The network infrastructure security is there for making sure that nobody can access your database from systems that are unsecure or systems where you don't want to have access from. \
+\
+The second part is protecting data at rest. Now let's say you are in the self-managed infrastructure as we discussed in number one here. You want a way of encrypting the data that is on your servers. It could be that your infrastructure is safe and it's hard to access the data. But if somebody has access to the server, this person could do almost everything. So keep that in mind. Protect data addressed, use volume encryption so nobody can just get a hard drive and access the hard drive and also enforce correct access permissions to the files and the drives and the servers. So nobody from the inside or a hacker can actually hack into the server itself and access the data. Three best practices for security that are very easy to realize are these. \
+\
+1. 
+\b \cf2 \cb3 \strokec2 Use encryption:
+\b0 \cf2 \cb3 \strokec2  So whenever you have a client talk with the server, use encrypted connection. The connection from Python clients to your database in production should always be encrypted. So nobody can sniff out the transmission and look into what data has been communicated throughout with the client and this server. This is something encryption is important. \
+\
+2. 
+\f3\b \cf4 \cb3 \outl0\strokewidth0 Tokens :
+\f2\b0  \cf2 \cb3 \outl0\strokewidth0 \strokec2 Then for actually securing the access, make sure that you use access tokens. Tokens are always good to use because they're secure. Use them for your users. Every user gets a access token. This token is only for this user. This token can be manually invalidated if you would have a breach, or if you're unsure if a user leaves the company, whatever, or leaves the team. Same thing goes for systems. You don't want your web interface that queries data out of your database to straight up have access to your database. You want to have something like a token infrastructure around it where the web server itself has an access token. And this token is only for the web server and only the web server knows this token and can access data with this token. Tokens also are a combination with access roles, right? Because you only want to limit your users for certain roles. You have admins who can do certain stuff. You have testing testers who can do certain stuff. You have users who can only read data. You have certain web interfaces. One web interface might only be able to access this database. The other only access this database. So it's very important to isolate your database or databases through access roles. This is through network security. This is firewalls. This is also on a database level, very important. And with that to keep these three things in mind and also what I discussed before, infrastructure and data address, then you're very well set up for development and for production.\
+\
+\
+\
+
+\f3\b\fs38 \cf2 \cb3 \strokec2 ## 
+\fs30 Neo4j query optimization
+\f2\b0\fs24 \
+
+\fs32 \cf2 \cb3 \strokec2 \
+\
+1.  Reduce the amount of data that scanned for the query by defining the node label for the search. Ex: MATCH(p:Person), Person is the label of node and p is referenced\
+ \
+2.  Create index for the properties of a label, 
+\b \cf2 \cb3 \strokec2 ex: CREATE INDEX FOR (p:Person) ON (p.user_name);
+\b0 \cf2 \cb3 \strokec2 \
+       Indexing is always important. It's important for relational databases. It's also important for Neo Force. This means you can create indexes for properties. So you can say, okay, let's create for the person, let's create index for the username because we are searching a lot for the username. So let's create an index for it, this way the database can first look into the index and then query the data actually from the from the drives, which makes it a lot faster. \
+\
+// below query will show all node visited \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf4 \cb3 \outl0\strokewidth0 //Profile Alia \
+
+\f0\b0 PROFILE\
+MATCH (l:Learner)\
+WHERE l.name = 'Alia'\
+RETURN l\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f2 \cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+// Create index first\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f3\b \cf4 \cb3 \outl0\strokewidth0 ex: CREATE INDEX FOR (p:Person) \
+     ON (p.user_name);\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f2\b0 \cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf4 \cb3 \outl0\strokewidth0 // below query will show only one node visited \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f1\b \cf4 //Profile Alia \
+
+\f0\b0 PROFILE\
+MATCH (l:Learner)\
+WHERE l.name = 'Alia'\
+RETURN l
+\f2 \cf2 \cb3 \outl0\strokewidth0 \strokec2 \
+\
+Chapter :\
+1. Does the direction o\cf2 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 	\
+\'95	\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Direction is only logical and has no influence of the speed. Speed is the same from both directions.\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf2 \cb3 \strokec2 f a relationship affect query speed?\
+    \
+2. What is the typical setup for a query?\
+     \cf2 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 	\'95	\expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 MATCH + WHERE + RETURN      // \'93MATCH" matches the Nodes and the relationships, "WHERE" filters the data, and "RETURN" defines which nodes and relationships should be returned.\
+\cf2 \cb3 \strokec2 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}

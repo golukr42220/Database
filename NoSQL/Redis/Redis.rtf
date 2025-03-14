@@ -1,0 +1,1000 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww30040\viewh18340\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs28 \cf0 \
+Install Redis on Mac with Homebrew \
+\
+Note: Open Terminal and run below command\
+\
+To install Redis on a Mac using Homebrew, follow these steps: \
+1. Ensure Homebrew is installed: If you haven\'92t already, install Homebrew by following the instructions on the official Homebrew website: https://brew.sh/ \
+2. Update Homebrew: Run the following command to ensure you have the latest packages:\'a0brew update \
+3.  Install Redis: Run the following command to install Redis:\'a0brew install redis \
+4. Verify installation: Once the installation is complete, you can verify that Redis is installed by running:\'a0redis-server\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0 1. Redis Server (redis-server)\
+redis-server is the command to start the Redis server, which will run in the background, handling all the data management operations.\
+Common redis-server commands:\
+	\'95	Start Redis Server: \uc0\u8232  cmd: redis-server   // run this command in different Mac terminal other than client \u8232  \
+	\'95	2 . Redis Client (redis-cli)   // run this command in different Mac terminal\
+	\'95	redis-cli is the command-line interface to interact with the Redis server. You use it to issue commands to the Redis server for tasks like data manipulation, server information, and diagnostics.\
+	\'95	Common redis-cli commands:\
+	\'95	Connect to Redis Server:\uc0\u8232 \u8232 cmd: redis-cli\u8232 \
+Note: run set, get, commands at client side terminal\
+\
+set name \'93golu Singh\'94\
+get name\
+ set \'93my first name\'94 Golu\
+get \'93my first name\'94\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+What is Redis?\
+ -  Redis is known as a key-value, in-memory, NoSQL database.  \
+\
+   Redis, at its most basic, allows you to store a hashmap in-memory, without the need of a database schema. There are no complex data models and you can only save a map of keys with values, which are usually strings. And it all happens in memory. There are no hard drives involved usually, and there are no, or close to no, delays in data access. It also means that writing and reading from this databases is really fast, because it all happens in memory. There is a big delay accessing data from hard drives or any other storage medium. This is another microsecond type of access that we're talking about. Speed is one of the main reasons why you, and really everyone else, will want to use Redis, the amazing performance that it brings. If you're coming from the SQL world, like MySQL, PostgreDB, or similar solutions, they have nothing against Redis when it comes to talking about I/O performance. Of course, because Redis is a NoSQL database, one of the main things missing is the schema that characterizes SQL solutions. That means coming up with complex data modules is actually quite hard and impractical. So you use Redis to store information that needs to be quickly interacted with, either read or written, and that is of simple nature, like configuration options, counters, and the like. Now, because this is a in-memory store, there's always the issue of losing information. If the server crashes, memory data is not saved, thus the data is lost. That means that these pieces of information need to be ephemeral in the sense that if they get deleted, you can easily recreate them, or at least, if you do lose them, you don't lose too much value from it. There are options at your disposal to persist that information and make sure that Redis is a reliable and trusted data store. However, Redis is very rarely used as a main database. Instead, it's used as an auxiliary system where you store simple, quickly accessible information to improve the performance of your overall system.\
+\
+Data types\
+\
+While I did mention that most of the values map to a key are strings, in practice that's not entirely true. We do have some other data structures that we can use to get the most out of our in memory database. \
+\
+The data types that are currently supported are strings, lists, sets, hashes, sorted sets, bitmaps, hyperlog logs, which really if you ask me they have a very strange name, strings and geospatial indexes. So let's start with the first one. \
+\
+Strings: They are the most basic type of value. You can store up to 512 megabytes of string data inside a single key. So that's quite a lot of information. And it's important to know also that you don't have numeric values in Redis. So if you're looking to store a counter, for example, Redis has some interesting in functions to support it but they're always going to be strings. \
+\
+ Lists: List are just that, a collection of things, essentially a collection of strings which works as a doubly linked list. Meaning you can push values into them both from the end and the head. Lists are great so collections. You can store up to four billion elements inside it.  And even large lists have fantastic performance.\
+\
+ Sets:  Sets are essentially lists that don't allow for repeated values inside them. They're fantastic tools to use when you have to keep a list of things and those things, those values, can eventually repeat in your logic. You don't need to check the list if the values are already there. You can just use a set instead and forget about checking it for yourself. \
+\
+sorted sets: Then we have sorted sets. As before, the sorted sets builds on top of the previous one and it's a set with everything that that entails and it's also automatically sorted by a specific value. You can use this stereotype to keep things like a leaderboard for games or a list of priorities. The sorting is handled by an efficient algorithm. So it's a great tool to use when the order of the elements it's important to your business logic. \
+\
+Hashes: Hashes are just like Redis essentially but at a smaller scale. You can keep a map of key value pairs associated to a single key. This is what you use usually to represent some more complex data like the information of a user. \
+\
+Streams: They allow you to define, well, streams of data that your database can distribute to different clients. This is quite a novel feature for at traditional database because usually data is requested by clients. Not the other way around. Through the use of streams you can have your database send information to your clients once the information is available.\
+\
+  list, sets, hashes, sorted sets and streams. The remaining datatypes, bitmaps, hyperlog logs, and geospatial indexes are outside of the scope of this course because they have very particular use cases. And that's it for data types. Once you start seeing examples for each one, you'll see one kind of the value that each one brings to a table.\
+\
+## Your first command: SET\
+       The SET Command allows you to save a value in Redis. \
+Here's the syntax. Set the key name, a value. While there are other aspects to a set command, the most important ones here are the key and the value. The key we like as a container for the value. You can think of it as a variable new code. They hold value so many times. In our case the type will always be string. If you want to save all the type of values like we've seen before you'll use all the specific commands that we'll see in future videos. An important thing to know about the SET Command is that it's atomic. That means that the command will always either succeed or fail. There is no chance for it to partially save your data. Much like when you're transferring money there is no chance for only part of that money to get wired. The SET Command will never save only part of your data. If you get a successful response from Redis then that data, its in Redis.\
+\
+Notice how I used the quotes on the second command only. That is because if you're saving a single word, without spaces like my name, then you don't need double quotes. But if you have blank spaces in between, then you will. Another minor of detail about the SET Command is that if you're trying to save data inside a key that doesn't exist, by default you will create it for the first time. You don't have to check whether the key is there before using it for the first time or not, like which is the, and the example. So the SET Command lets you save data into Redis without having to worry where you save it, and you can trust the results you get without checking if the data actually got saved or not. As long as you get a confirmation, then the data was saved.\
+\
+Ex:\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0 1. set name \'93golu Singh\'94\
+2. set \'93my first name\'94 Golu\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0  Redis doesn't deal with numbers. However, you can treat your string as numbers with specific functions, such as the INCR, or the DECR functions that will increment or decrement a value by one. So, let's pretend I'm trying to save a number inside a counter key. I can initialize it with the SET command and the zero value. So if I do get counter, I do get zero string even though I enter a number.\
+\
+1. set count 0\
+\
+2. get count // this is will return 0 as a string ex: \'930\'94\
+\
+3. incr count  // it will increase count by 1, ex: \'93get count\'94 will show count value 1\
+\
+4. decr count  // it will decrease count by 1, ex: \'93get count\'94 will show count value 0\
+\
+5. incrby count 4  // it will increase count by 4, ex: \'93get count\'94 will show count value 4\
+\
+6. decrby count 3  // it will decrease count by 4, ex: \'93get count\'94 will show count value 1\
+\
+\
+Questions\
+\
+1. When trying to GET the value of a key that doesn't exist, what result do you get from Redis?\
+    Ans: nil               // nil is the representation of a non-value in Redis and is returned when the key you're trying to read doesn't exist\
+\
+2. What can you do to ensure a piece of data is properly saved?\
+    Ans: 	Trust the response of the server.                  // The SET command is atomic, if the server responds with a success response, then you can be sure all data was saved.\
+\
+3. How can you store a number in a Redis key?\
+    Ans:  As a string                // Numbers are represented as Strings in Redis and the commands that deal with numbers (like INCR) know how to parse them.\
+\
+4. What is the main advantage of using Redis?\
+    Ans:  high-speed I/O               // Redis stores data in-memory, which provides a higher I/O throughput than other mediums like hard drives, used by other database solutions.\
+\
+\
+\
+What are hashes?\
+\
+     A HashMap is a very common data structure in software development and in Redis the same concept applies. We're talking about a map where each key maps to a single value. If you think about it, Redis is a big HashMap in memory and we're also given the ability to use a smaller version of it to control what data gets saved within the logical structure of a single entity. In other words, you can store multiple properties inside the same map, which makes it the best data type to represent complex structures, commonly known as objects. Essentially, if you're wondering how to save a user or a shopping cart or any entity that have more than a single property, then HashMaps, they are the answer to it. Keep in mind that Redis has optimized HashMaps to the point where they can store up to four billion properties inside a single map. This is not to say you should use them like that but that you might also think about them for other use cases that representing your logged in user or your active shopping cart. HashMaps can deal with anything really.\
+\
+Writing and reading from hashes\
+\
+1. HSET\
+2. HGET\
+\
+In Redis, hashes are used to store objects, such as a dictionary or map, where the keys are mapped to values. They are particularly useful for representing objects like user profiles with attributes (e.g., username, email, and age). Redis commands allow you to create, read, update, and delete fields and values within a hash.\
+1. Writing to a Hash\
+To write data to a Redis hash, the HSET command is used. Each hash has a unique key, and within that hash, there are field-value pairs.\
+Syntax:\
+HSET <hash_key> <field> <value>\
+\
+Or\
+\
+HSET <hash_key> <field> <value> <field> <value> <field> <value>\
+\
+Note:  hash_key must be unique\
+Example:\
+You have a user:1001 hash, and you want to store details like the name, age, and email:\
+HSET user:1001 name "Alice"\
+HSET user:1001 age 30\
+HSET user:1001 email "alice@example.com"\
+\
+You can also set multiple fields at once using the HMSET or HSET (with multiple field-value pairs in newer versions):\
+\
+HMSET user:1001 name "Alice" age 30 email "alice@example.com"\
+\
+2. Reading from a Hash\
+Redis provides multiple commands to read values from a hash, depending on whether you want to get a single field, multiple fields, or all fields in a hash.\
+a) Get a Single Field (HGET)\
+To get a single field from a hash, use the HGET command.\
+Syntax:\
+HGET <hash_key> <field>\
+\
+Example:\
+HGET user:1001 name\
+\
+Output: \'94Alice"\
+\
+b) Get Multiple Fields (HMGET)\
+To retrieve the values of multiple fields from a hash, use the HMGET command.\
+Syntax:\
+HMGET <hash_key> <field1> <field2> ... <fieldN>\
+\
+Example:\
+HMGET user:1001 name age\
+\
+Output:\
+1) "Alice"\
+2) "30"\
+\
+\
+c) Get All Fields and Values (HGETALL)\
+To retrieve all the fields and their values in a hash, use the HGETALL command.\
+Syntax:\
+HGETALL <hash_key>\
+\
+Example:\
+HGETALL user:1001\
+\
+Output:\
+1) "name"\
+2) "Alice"\
+3) "age"\
+4) "30"\
+5) "email"\
+6) "alice@example.com"\
+\
+d) Get All Field Names (HKEYS)\
+To retrieve only the field names in a hash, use the HKEYS command.\
+Syntax:\
+HKEYS <hash_key>\
+\
+Example:\
+HKEYS user:1001\
+\
+Output:\
+1) "name"\
+2) "age"\
+3) "email"\
+\
+\
+e) Get All Values (HVALS)\
+To get only the values in a hash without the field names, use the HVALS command.\
+Syntax:\
+HVALS <hash_key>\
+\
+Example:\
+HVALS user:1001\
+Output:\
+1) "Alice"\
+2) "30"\
+3) "alice@example.com"\
+\
+3. Checking Existence of a Field in a Hash\
+To check if a specific field exists in a hash, use the HEXISTS command.\
+Syntax:\
+HEXISTS <hash_key> <field>\
+\
+Example:\
+HEXISTS user:1001 email\
+\
+Output:\
+(integer) 1  # If it exists\
+(integer) 0  # If it doesn't exist\
+\
+4. Deleting Fields from a Hash\
+To delete one or more fields from a hash, use the HDEL command.\
+Syntax:\
+HDEL <hash_key> <field1> <field2> ... <fieldN>\
+Example:\
+HDEL user:1001 email\
+\
+5. Getting the Number of Fields in a Hash\
+To get the number of fields in a hash, use the HLEN command.\
+Syntax:\
+HLEN <hash_key>\
+\
+Example:\
+HLEN user:1001\
+\
+Output:\
+(integer) 2  # Number of fields remaining after deleting `email`\
+\
+1. Strings Commands\
+\
+# Set a string value\
+SET key "value"\
+# Example:\
+SET user:1001 "Alice"\
+\
+# Get a string value\
+GET key\
+# Example:\
+GET user:1001\
+\
+# Append a string value\
+APPEND key "additional_text"\
+# Example:\
+APPEND user:1001 " Bob"\
+\
+# Get substring of a string\
+GETRANGE key start end\
+# Example:\
+GETRANGE user:1001 0 4\
+\
+# Increment a numeric value stored as a string\
+INCR key\
+# Example:\
+SET count 10\
+INCR count\
+\
+# Decrement a numeric value stored as a string\
+DECR key\
+# Example:\
+DECR count\
+\
+# Set a value only if the key doesn't exist (NX option)\
+SET key value NX\
+# Example:\
+SET session_id "abc123" NX\
+\
+# Set a value only if the key exists (XX option)\
+SET key value XX\
+# Example:\
+SET session_id "abc456" XX\
+\
+# Set a value with expiration time (in seconds)\
+SETEX key seconds value\
+# Example:\
+SETEX cache_key 60 "cached_data"\
+\
+# Set a value with expiration time (in milliseconds)\
+PSETEX key milliseconds value\
+# Example:\
+PSETEX cache_key 60000 "cached_data"\
+\
+# Get the length of the value stored in a key\
+STRLEN key\
+# Example:\
+STRLEN user:1001\
+\
+# Increment a value by a specified amount\
+INCRBY key increment\
+# Example:\
+INCRBY counter 5\
+\
+# Decrement a value by a specified amount\
+DECRBY key decrement\
+# Example:\
+DECRBY counter 3\
+\
+# Get and set a new value in one command (returns the old value)\
+GETSET key value\
+# Example:\
+GETSET user:1001 "Bob"\
+\
+# Set multiple keys to multiple values\
+MSET key1 value1 key2 value2 ...\
+# Example:\
+MSET user:1001 "Alice" user:1002 "Bob"\
+\
+# Get multiple keys' values\
+MGET key1 key2 ...\
+# Example:\
+MGET user:1001 user:1002\
+\
+# Set a key and return the previous value atomically\
+GETSET key value\
+# Example:\
+GETSET counter 0\
+\
+# Increment a float value stored as a string\
+INCRBYFLOAT key increment\
+# Example:\
+INCRBYFLOAT balance 10.75\
+\
+# Set a key to hold a string value and expire after a given number of seconds\
+SETEX key seconds value\
+# Example:\
+SETEX session:1001 120 "abc123"\
+\
+# Set a key to hold a string value and expire after a given number of milliseconds\
+PSETEX key milliseconds value\
+# Example:\
+PSETEX session:1002 1500 "xyz123"\
+\
+\
+2. Lists Commands\
+\
+# Push values to the left of the list\
+LPUSH key value [value ...]\
+# Example:\
+LPUSH tasks "task1" "task2" "task3"\
+\
+# Push values to the right of the list\
+RPUSH key value [value ...]\
+# Example:\
+RPUSH tasks "task4"\
+\
+# Pop a value from the left of the list\
+LPOP key\
+# Example:\
+LPOP tasks\
+\
+# Pop a value from the right of the list\
+RPOP key\
+# Example:\
+RPOP tasks\
+\
+# Get elements from a list\
+LRANGE key start stop\
+# Example:\
+LRANGE tasks 0 -1  # Get all elements\
+\
+# Get the length of the list\
+LLEN key\
+# Example:\
+LLEN tasks\
+\
+# Insert an element before or after a pivot value in the list\
+LINSERT key BEFORE|AFTER pivot value\
+# Example:\
+LINSERT tasks BEFORE "task2" "task1.5"\
+\
+# Get the element at the specified index in the list\
+LINDEX key index\
+# Example:\
+LINDEX tasks 1\
+\
+# Set the element at a specified index in the list\
+LSET key index value\
+# Example:\
+LSET tasks 1 "updated_task"\
+\
+# Remove elements equal to a value from the list (count specifies how many)\
+LREM key count value\
+# Example:\
+LREM tasks 2 "task2"  # Remove "task2" two times from the list\
+\
+# Trim a list to the specified range (keep elements within the range)\
+LTRIM key start stop\
+# Example:\
+LTRIM tasks 0 2  # Keep the first 3 elements\
+\
+# Block until an element is available to pop from the left of the list\
+BLPOP key timeout\
+# Example:\
+BLPOP tasks 10  # Wait 10 seconds for an element\
+\
+# Block until a value is available to pop from the right of the list\
+BRPOP key timeout\
+# Example:\
+BRPOP tasks 10\
+\
+# Pop a value from the left and push it to another list (atomically)\
+RPOPLPUSH source destination\
+# Example:\
+RPOPLPUSH tasks completed_tasks\
+\
+# Block until a value is available, then pop it from the left and push it to another list\
+BRPOPLPUSH source destination timeout\
+# Example:\
+BRPOPLPUSH tasks completed_tasks 10\
+\
+# Remove elements equal to a value from the list (blocking)\
+LREM key count value\
+# Example:\
+LREM tasks 0 "task1"  # Remove all occurrences of "task1"\
+\
+# Set the element at index\
+LSET key index value\
+# Example:\
+LSET tasks 1 "updated_task"\
+\
+# Get the length of the list\
+LLEN key\
+# Example:\
+LLEN tasks\
+\
+3. Sets Commands\
+\
+# Add one or more members to a set\
+SADD key member [member ...]\
+# Example:\
+SADD myset "member1" "member2"\
+\
+# Remove a member from a set\
+SREM key member\
+# Example:\
+SREM myset "member1"\
+\
+# Check if a member exists in a set\
+SISMEMBER key member\
+# Example:\
+SISMEMBER myset "member2"\
+\
+# Get all members of a set\
+SMEMBERS key\
+# Example:\
+SMEMBERS myset\
+\
+# Get the number of members in a set\
+SCARD key\
+# Example:\
+SCARD myset\
+\
+# Get the intersection of multiple sets\
+SINTER key1 key2 [key3 ...]\
+# Example:\
+SINTER set1 set2\
+\
+# Get the union of multiple sets\
+SUNION key1 key2 [key3 ...]\
+# Example:\
+SUNION set1 set2\
+\
+# Get the difference between multiple sets\
+SDIFF key1 key2 [key3 ...]\
+# Example:\
+SDIFF set1 set2\
+\
+# Remove and return a random member from a set\
+SPOP key\
+# Example:\
+SPOP myset\
+\
+# Get one or more random members from a set without removing them\
+SRANDMEMBER key [count]\
+# Example:\
+SRANDMEMBER myset 2  # Get 2 random members\
+\
+# Move a member from one set to another\
+SMOVE source destination member\
+# Example:\
+SMOVE set1 set2 "member1"\
+\
+# Get the members that are present in the first set but not in the second (difference)\
+SDIFFSTORE destination key1 key2\
+# Example:\
+SDIFFSTORE result_set set1 set2\
+\
+# Store the union of multiple sets in a new set\
+SUNIONSTORE destination key1 key2\
+# Example:\
+SUNIONSTORE result_set set1 set2\
+\
+# Store the intersection of multiple sets in a new set\
+SINTERSTORE destination key1 key2\
+# Example:\
+SINTERSTORE result_set set1 set2\
+\
+# Remove and return one or more random members from a set\
+SPOP key [count]\
+# Example:\
+SPOP myset 2  # Remove 2 random members\
+\
+# Get the number of members in a set\
+SCARD key\
+# Example:\
+SCARD myset\
+\
+# Store the intersection of multiple sets in a new set\
+SINTERSTORE destination key1 key2 ...\
+# Example:\
+SINTERSTORE result_set set1 set2\
+\
+# Store the union of multiple sets in a new set\
+SUNIONSTORE destination key1 key2 ...\
+# Example:\
+SUNIONSTORE result_set set1 set2\
+\
+# Store the difference of multiple sets in a new set\
+SDIFFSTORE destination key1 key2 ...\
+# Example:\
+SDIFFSTORE result_set set1 set2\
+\
+# Remove all members from a set\
+DEL key\
+# Example:\
+DEL myset\
+\
+5. Sorted Sets (ZSETs) Commands\
+\
+\
+# Add members to a sorted set with scores\
+ZADD key score1 member1 [score2 member2 ...]\
+# Example:\
+ZADD leaderboard 100 "Alice" 200 "Bob"\
+\
+# Get members with their scores in a range (lowest to highest score)\
+ZRANGE key start stop WITHSCORES\
+# Example:\
+ZRANGE leaderboard 0 -1 WITHSCORES\
+\
+# Get members with their scores in a range (highest to lowest score)\
+ZREVRANGE key start stop WITHSCORES\
+# Example:\
+ZREVRANGE leaderboard 0 -1 WITHSCORES\
+\
+# Get the score of a member in a sorted set\
+ZSCORE key member\
+# Example:\
+ZSCORE leaderboard "Alice"\
+\
+# Increment the score of a member in a sorted set\
+ZINCRBY key increment member\
+# Example:\
+ZINCRBY leaderboard 50 "Alice"\
+\
+# Get the rank of a member in a sorted set (lowest to highest score)\
+ZRANK key member\
+# Example:\
+ZRANK leaderboard "Alice"\
+\
+# Get the reverse rank of a member in a sorted set (highest to lowest score)\
+ZREVRANK key member\
+# Example:\
+ZREVRANK leaderboard "Bob"\
+\
+# Get the number of members in a sorted set\
+ZCARD key\
+# Example:\
+ZCARD leaderboard\
+\
+# Remove a member from a sorted set\
+ZREM key member\
+# Example:\
+ZREM leaderboard "Bob"\
+\
+\
+# Remove members in a given range by rank\
+ZREMRANGEBYRANK key start stop\
+# Example:\
+ZREMRANGEBYRANK leaderboard 0 1  # Remove first two members by rank\
+\
+# Remove members in a given range by score\
+ZREMRANGEBYSCORE key min max\
+# Example:\
+ZREMRANGEBYSCORE leaderboard 100 150  # Remove members with scores between 100 and 150\
+\
+# Get the members in a range by score (lowest to highest)\
+ZRANGEBYSCORE key min max WITHSCORES\
+# Example:\
+ZRANGEBYSCORE leaderboard 50 200 WITHSCORES\
+\
+# Get the members in a range by score (highest to lowest)\
+ZREVRANGEBYSCORE key max min WITHSCORES\
+# Example:\
+ZREVRANGEBYSCORE leaderboard 200 50 WITHSCORES\
+\
+# Get the count of members in a score range\
+ZCOUNT key min max\
+# Example:\
+ZCOUNT leaderboard 50 200\
+\
+# Get the rank of a member in the sorted set by score\
+ZRANK key member\
+# Example:\
+ZRANK leaderboard "Alice"\
+\
+# Get the reverse rank of a member in the sorted set by score\
+ZREVRANK key member\
+# Example:\
+ZREVRANK leaderboard "Alice"\
+\
+# Get members with scores in a specified range (score range)\
+ZRANGEBYSCORE key min max [WITHSCORES]\
+# Example:\
+ZRANGEBYSCORE leaderboard 50 100 WITHSCORES\
+\
+# Get members in a range by their lexicographical order\
+ZRANGEBYLEX key min max\
+# Example:\
+ZRANGEBYLEX leaderboard [a [z\
+\
+# Remove members in a range by their lexicographical order\
+ZREMRANGEBYLEX key min max\
+# Example:\
+ZREMRANGEBYLEX leaderboard [a [z\
+\
+# Get members within a score range in reverse order\
+ZREVRANGEBYSCORE key max min WITHSCORES\
+# Example:\
+ZREVRANGEBYSCORE leaderboard 200 50 WITHSCORES\
+\
+# Remove members with scores in a specific range\
+ZREMRANGEBYSCORE key min max\
+# Example:\
+ZREMRANGEBYSCORE leaderboard 50 100\
+\
+# Get the rank of a member in a sorted set by score\
+ZRANK key member\
+# Example:\
+ZRANK leaderboard "Alice"\
+\
+# Get the reverse rank of a member in a sorted set by score\
+ZREVRANK key member\
+# Example:\
+ZREVRANK leaderboard "Bob"\
+\
+\
+5. Hashes Commands\
+\
+# Set a field in a hash\
+HSET key field value\
+# Example:\
+HSET user:1001 name "Alice"\
+\
+# Get a field from a hash\
+HGET key field\
+# Example:\
+HGET user:1001 name\
+\
+# Set multiple fields in a hash\
+HMSET key field value [field value ...]\
+# Example:\
+HMSET user:1001 name "Alice" age 30 email "alice@example.com"\
+\
+# Get multiple fields from a hash\
+HMGET key field [field ...]\
+# Example:\
+HMGET user:1001 name age\
+\
+# Get all fields and values from a hash\
+HGETALL key\
+# Example:\
+HGETALL user:1001\
+\
+# Get all field names in a hash\
+HKEYS key\
+# Example:\
+HKEYS user:1001\
+\
+# Get all values in a hash\
+HVALS key\
+# Example:\
+HVALS user:1001\
+\
+# Check if a field exists in a hash\
+HEXISTS key field\
+# Example:\
+HEXISTS user:1001 email\
+\
+# Delete a field from a hash\
+HDEL key field\
+# Example:\
+HDEL user:1001 email\
+\
+# Get the number of fields in a hash\
+HLEN key\
+# Example:\
+HLEN user:1001\
+\
+# Set a field in a hash only if it does not already exist\
+HSETNX key field value\
+# Example:\
+HSETNX user:1001 name "Bob"  # Won't set if "name" already exists\
+\
+# Increment a field in a hash by a numeric value\
+HINCRBY key field increment\
+# Example:\
+HINCRBY user:1001 age 2\
+\
+# Increment a field by a float value\
+HINCRBYFLOAT key field increment\
+# Example:\
+HINCRBYFLOAT user:1001 score 1.5\
+\
+# Delete multiple fields from a hash\
+HDEL key field1 field2 ...\
+# Example:\
+HDEL user:1001 name email\
+\
+# Get the length of the value in a hash field\
+HSTRLEN key field\
+# Example:\
+HSTRLEN user:1001 name\
+\
+# Increment a hash field by a float\
+HINCRBYFLOAT key field increment\
+# Example:\
+HINCRBYFLOAT user:1001 balance 5.5\
+\
+# Get the number of fields in a hash\
+HLEN key\
+# Example:\
+HLEN user:1001\
+\
+# Delete one or more fields from a hash\
+HDEL key field1 field2 ...\
+# Example:\
+HDEL user:1001 name email\
+\
+# Set multiple fields at once in a hash\
+HMSET key field1 value1 field2 value2 ...\
+# Example:\
+HMSET user:1001 name "Alice" age 30\
+\
+# Get all field names in a hash\
+HKEYS key\
+# Example:\
+HKEYS user:1001\
+\
+# Get all values in a hash\
+HVALS key\
+# Example:\
+HVALS user:1001\
+\
+\
+## Representing multi-key models\
+\
+In Redis, multi-key models refer to data structures that require multiple keys to represent a complex entity or relationship. To represent multi-key models in Redis, you can follow several patterns depending on the type of relationship and how you need to access the data. The main approaches involve key prefixing, hashes, and indexes, often combining multiple data types like strings, sets, hashes, or sorted sets. Here are common ways to model multi-key data structures:\
+1. Key Prefixing\
+In Redis, you can use prefixes to represent a multi-key model. This method involves creating separate keys for different aspects of an entity but keeping a consistent naming convention.\
+Example: User Profiles\
+SET user:1001:name "Alice"\
+SET user:1001:email "alice@example.com"\
+SET user:1001:age 30\
+Here, user:1001 is a unique identifier, and the data is separated into different fields using key prefixes like user:1001:name, user:1001:email, and so on.\
+Usage\
+This pattern allows for easy access to specific fields of the user, but each key is independent.\
+GET user:1001:name\
+GET user:1001:email\
+\
+2. Using Hashes to Represent Entities\
+Hashes can be used to represent a complex object where each field of the object is stored as a key-value pair within the hash.\
+Example: User Profile in a Hash\
+HSET user:1001 name "Alice"\
+HSET user:1001 email "alice@example.com"\
+HSET user:1001 age 30\
+Usage\
+You can store all the attributes of a user in one hash. This is more efficient for accessing or modifying multiple fields.\
+HGET user:1001 name\
+HGETALL user:1001\
+HDEL user:1001 email\
+\
+3. Modeling One-to-Many Relationships\
+If you have a one-to-many relationship (e.g., one user can have many posts), you can use lists, sets, or sorted sets.\
+Example: User Posts (One-to-Many Relationship)\
+Using a List:\
+LPUSH user:1001:posts "post1" "post2" "post3"\
+LRANGE user:1001:posts 0 -1\
+Using a Set (if post order doesn't matter):\
+SADD user:1001:posts "post1" "post2" "post3"\
+SMEMBERS user:1001:posts\
+Using a Sorted Set (to store posts by timestamp):\
+ZADD user:1001:posts 1627891234 "post1"\
+ZADD user:1001:posts 1627894567 "post2"\
+ZRANGE user:1001:posts 0 -1 WITHSCORES\
+\
+4. Modeling Many-to-Many Relationships\
+In cases where entities have a many-to-many relationship (e.g., users and groups), you can use sets to store relationships and then cross-reference keys.\
+Example: Users and Groups (Many-to-Many Relationship)\
+SADD user:1001:groups "group1" "group2"\
+SADD user:1002:groups "group1"\
+\
+SADD group:group1:users "user:1001" "user:1002"\
+SADD group:group2:users "user:1001"\
+Usage\
+To find all the groups a user belongs to:\
+SMEMBERS user:1001:groups\
+To find all users in a group:\
+SMEMBERS group:group1:users\
+\
+5. Indexes for Fast Lookup\
+For fast lookups, especially when you need to access entities by multiple fields, you can maintain secondary indexes using sets or sorted sets.\
+Example: Email Lookup\
+Let\'92s say you want to look up a user by their email. You can create an index for emails:\
+SET user:1001:email "alice@example.com"\
+SET email:alice@example.com user:1001\
+Usage\
+To look up a user by their email:\
+GET email:alice@example.com  # Returns user:1001\
+GET user:1001:name           # Returns Alice\
+\
+6. Storing Complex Entities with Related Data\
+In more complex models, where an entity has various related data, you can use a combination of hashes and sets (or other structures) to store entity data and their relationships.\
+Example: User with Friends and Posts\
+Store user details in a hash:\
+HSET user:1001 name "Alice" email "alice@example.com" age 30\
+Store the user\'92s friends in a set:\
+SADD user:1001:friends "user:1002" "user:1003"\
+Store the user\'92s posts in a sorted set with timestamps:\
+\
+ZADD user:1001:posts 1627891234 "post1" 1627894567 "post2"\
+Usage\
+To retrieve user info and related data:\
+HGETALL user:1001                 # Get user details\
+SMEMBERS user:1001:friends         # Get user's friends\
+ZRANGE user:1001:posts 0 -1        # Get user's posts\
+\
+7. Atomic Operations on Multiple Keys (Transactions)\
+When dealing with multi-key operations that need to be atomic, you can use Redis transactions. Redis provides commands like MULTI, EXEC, and WATCH.\
+Example: Atomic Update of Two Keys\
+MULTI\
+SET user:1001:balance 50\
+SET user:1002:balance 150\
+EXEC\
+If you need to ensure no other client modifies the keys before your transaction completes, you can use WATCH:\
+WATCH user:1001:balance\
+MULTI\
+INCRBY user:1001:balance 10\
+EXEC\
+If user:1001:balance is modified by another client between WATCH and EXEC, the transaction will fail.\
+\
+Summary of Key Patterns:\
+	\'95	Key Prefixing: Simple yet effective for organizing data.\
+	\'95	Hashes: Use to represent an entity with multiple attributes.\
+	\'95	Lists, Sets, Sorted Sets: Use to represent one-to-many relationships or maintain ordered/unordered collections.\
+	\'95	Indexes: Maintain fast lookups for secondary fields like emails or usernames.\
+	\'95	Many-to-Many: Use sets to track bidirectional relationships (e.g., users and groups).\
+	\'95	Transactions: Ensure atomic operations on multiple keys when consistency is critical.\
+These patterns are flexible and allow you to model various real-world data structures in Redis effectively.\
+\
+What else can you do with Redis?\
+\
+       Redis is a lot more than just a database.\'a0In fact, some of the most interesting use cases\'a0for Redis are not related to data storage at all.\'a0I'm talking about Redis' ability to function\'a0as a message bus.\'a0A message bus is a messaging infrastructure\'a0that allows multiple systems to communicate\'a0with each other asynchronously.\'a0While it might sound like an unrelated feature,\'a0being able to distribute data between the producer\'a0and the consumer is not far\'a0from being able to store the data a producer makes.\'a0So don't be shocked.\'a0The most important thing to know\'a0about message buses right now\'a0is that they follow a very similar architectural paradigm.\'a0The bus will always be in the middle,\'a0between the producer and the consumers.\'a0A producer is an entity creating data\'a0and pushing into the bus,\'a0and a consumer is an entity reading data off of the bus.\'a0You might find situations where the data is persisted\'a0inside the bus for a while,\'a0in case there are no consumers interested in it,\'a0and others where data is simply distributed blindly\'a0by the bus,\'a0and if there is no one\'a0on the other side to consume it, then it simply gets lost.\'a0These are both common patterns for massive passes\'a0and their differences give you\'a0a lot of flexibility when it comes to\'a0defining your architecture.\'a0You can see here as to,\'a0\'a0based on the type of message bus\'a0that we're going to be hitting.\
+\
+## Building a message bus with redis.\
+\
+Building a message bus with Redis can be a powerful and efficient solution for handling asynchronous communication between multiple services or components in a distributed system. Redis provides several data structures and patterns that can be used to implement message buses, such as Redis Pub/Sub (publish/subscribe), Redis Lists (for message queues), and Redis Streams (for more advanced message processing).\
+Let\'92s break down each method and see how you can use Redis to build a message bus.\
+\
+1. Redis Pub/Sub (Publish/Subscribe)\
+Redis's Pub/Sub model allows real-time messaging where one or more publishers send messages to one or more subscribers through channels. It\'92s a lightweight mechanism, but lacks persistence and message durability (messages are lost if there are no subscribers).\
+How Pub/Sub Works:\
+	\'95	Publishers send messages to a specific channel.\
+	\'95	Subscribers subscribe to one or more channels to receive messages.\
+	\'95	Messages are delivered to all currently connected and subscribed clients.\
+Steps to Build a Simple Pub/Sub Message Bus:\
+	\'95	Publisher: A service that sends messages.\
+	\'95	Subscriber: A service that receives messages in real-time.\
+Publisher (Message Producer) Example:\
+Note: open two terminal and run this command.  redis-cli. Then run the first subscribe command on one terminal first and then publish at other terminal. \
+PUBLISH my_channel "Hello, Redis Pub/Sub!"\
+Subscriber (Message Consumer) Example:\
+SUBSCRIBE my_channel\
+Once a subscriber listens to the my_channel channel, it will receive all messages published to that channel.\
+\
+Exam-:\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 cmd : publish notifications "Hi Golu"\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0 cmd: subscribe notifications\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+\cf0 1) "subscribe"\
+2) "notifications"\
+3) (integer) 1\
+1) "message"\
+2) "notifications"\
+3) "Hi Golu"\
+\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\partightenfactor0
+\cf0 \
+Use Cases:\
+	\'95	Real-time notifications: Push notifications, live updates, chat systems.\
+	\'95	Event-driven systems: Microservices architecture where services need to notify others about events.\
+Limitations:\
+	\'95	No message persistence: If no subscribers are connected, messages are lost.\
+	\'95	Subscribers must be online to receive messages.\
+\
+2. Redis Lists (Message Queues)\
+Redis Lists can be used to implement a message queue. This is more suitable for a producer-consumer model where messages are added by producers and consumed (processed) by consumers. Redis lists are reliable because they store messages until they are processed.\
+How Message Queues Work Using Redis Lists:\
+	\'95	Producers use LPUSH to push messages to the front of the list (queue).\
+	\'95	Consumers use RPOP to pop messages from the back of the list, ensuring FIFO (First-In-First-Out) order.\
+Steps to Build a Simple Message Queue:\
+	\'95	Producer: Adds messages to a queue.\
+	\'95	Consumer: Reads and processes messages from the queue.\
+Producer (Message Producer) Example:\
+LPUSH my_queue "Message 1"\
+LPUSH my_queue "Message 2"\
+Consumer (Message Consumer) Example:\
+RPOP my_queue  # This will return and remove "Message 1"\
+Blocking Message Queues:\
+You can also use the BLPOP or BRPOP commands for blocking message queues. If there are no messages in the queue, the consumer will block and wait for a message to arrive.\
+BLPOP my_queue 0  # Block and wait until a message is available\
+Use Cases:\
+	\'95	Task processing: Where tasks are queued and processed asynchronously.\
+	\'95	Job distribution: Distributed systems with worker services processing messages.\
+Benefits:\
+	\'95	Persistence: Messages are retained in the queue until they are processed.\
+	\'95	Reliability: Suitable for systems where you don\'92t want to lose messages.\
+\
+3. Redis Streams (Advanced Message Queues)\
+Redis Streams provide a more advanced way to build a message bus with additional features like message persistence, message IDs, consumer groups, and the ability to replay messages.\
+How Streams Work:\
+	\'95	Producers add messages to a stream using XADD.\
+	\'95	Consumers read messages from the stream using XREAD or use consumer groups for coordinated consumption across multiple consumers.\
+Steps to Build a Stream-Based Message Bus:\
+Producer (Message Producer) Example:\
+XADD my_stream * name "Message 1"\
+XADD my_stream * name "Message 2"\
+Here, * automatically generates a unique message ID, and "name" is the field representing the message's content.\
+Consumer (Message Consumer) Example:\
+XREAD COUNT 2 STREAMS my_stream 0\
+This will read two messages from the stream my_stream, starting from the beginning (ID 0).\
+Consumer Groups:\
+Redis Streams support consumer groups, allowing multiple consumers to process different parts of the same stream, enabling parallel message processing and load distribution.\
+Creating a Consumer Group:\
+XGROUP CREATE my_stream my_group $ MKSTREAM\
+Reading Messages with a Consumer Group:\
+XREADGROUP GROUP my_group consumer1 COUNT 2 STREAMS my_stream >\
+The > symbol tells Redis to read only new messages for that consumer group.\
+Stream Message Acknowledgment:\
+Consumers in a group must acknowledge messages they\'92ve processed using XACK.\
+XACK my_stream my_group message_id\
+This ensures the message is marked as processed, and Redis won\'92t deliver it again.\
+Use Cases:\
+	\'95	Distributed logging: Streams of events or logs that multiple consumers can process.\
+	\'95	Task pipelines: Multiple workers processing streams in parallel.\
+	\'95	Durable messaging: Streams retain messages until explicitly deleted or acknowledged.\
+Benefits:\
+	\'95	Persistence: Messages stay in the stream until they are acknowledged.\
+	\'95	Message replay: Ability to replay messages or retrieve past messages.\
+	\'95	Scalable: With consumer groups, you can distribute work across multiple consumers.\
+Limitations:\
+	\'95	More complex than basic lists or pub/sub.\
+	\'95	Requires manual message acknowledgment in consumer groups.\
+\
+Combining Redis Data Structures for a Message Bus\
+In a real-world scenario, you might combine different Redis features for a more robust message bus. For example:\
+	\'95	Pub/Sub for broadcasting real-time messages.\
+	\'95	Lists for durable task queues that need persistence.\
+	\'95	Streams for distributed and durable processing with consumer groups.\
+Example Architecture:\
+	1	Producer pushes tasks to a queue (using lists or streams).\
+	2	Multiple Consumers pop tasks from the queue and process them.\
+	3	Pub/Sub can notify other services when certain events occur (like when a task completes).\
+\
+Advantages of Redis as a Message Bus:\
+	1	Performance: Redis is highly performant and can handle millions of messages per second.\
+	2	Simplicity: Redis commands for building message queues and Pub/Sub are easy to use and integrate.\
+	3	Scalability: Redis Streams and consumer groups allow scalable distributed systems.\
+	4	Flexibility: Redis supports multiple data types, allowing you to choose the right tool for your specific use case (Pub/Sub, Lists, or Streams).\
+	5	Persistence: Redis Streams provide durable storage for messages.\
+\
+Conclusion\
+By using Redis's Pub/Sub, Lists, and Streams, you can build various types of message buses that suit different use cases:\
+	\'95	Pub/Sub for real-time messaging.\
+	\'95	Lists for task queues and job processing.\
+	\'95	Streams for advanced, durable, and distributed message processing.\
+Each approach has different trade-offs in terms of complexity, persistence, and scalability, so you can pick the one that best suits your application\'92s needs.\
+## Introduction to key-space notifications\
+\
+Key space Notifications are probably my favorite feature of Redis, mostly because of all the potential that it has. They are the third way in which you can create a message bus-like structure, only in this case, the producer is going to be Redis itself. So, let me explain how that works. Keyspace Notifications allow you to subscribe to events that happens on keys like setting a value, removing a key, and so on. If you subscribe one of your clients to these notifications, you can know when data enters or leaves Redis. This opens up the door for some very interesting behaviors like timeout notifications, time-based actions, reactive architectures, and lots more.\
+\
+\
+}

@@ -1,0 +1,92 @@
+
+# Redis Search Commands - Detailed Explanations and Examples
+
+# 1. Creating and Managing Indexes
+
+## FT.CREATE
+# Creates an index with a schema on specific fields for search.
+# Example: Create an index for book data.
+# Explanation:
+# - ON HASH: We’re indexing hashes.
+# - PREFIX 1 book:: Only keys with 'book:' prefix will be indexed.
+# - SCHEMA: Defines fields like title, author, genre, etc.
+
+FT.CREATE bookIndex ON HASH PREFIX 1 book: SCHEMA title TEXT WEIGHT 5.0 author TEXT genre TAG price NUMERIC
+
+## FT.ALTER
+# Adds new fields to an existing index schema.
+# Example: Adding publish_date field to bookIndex.
+
+FT.ALTER bookIndex SCHEMA ADD publish_date NUMERIC SORTABLE
+
+## FT.DROPINDEX
+# Deletes an index. The 'DD' option also deletes documents related to the index.
+# Example: Delete bookIndex and all related documents.
+
+FT.DROPINDEX bookIndex DD
+
+## FT.INFO
+# Provides information about the index, including document count and memory usage.
+# Example: Get info on bookIndex.
+
+FT.INFO bookIndex
+
+
+# 2. Searching and Filtering
+
+## FT.SEARCH
+# Performs a search query on the index.
+# - Filters: Filter based on fields, such as price or genre.
+# - Sorting: Sort results by fields like publish_date.
+# Example: Search for "Redis" books and sort by publish_date.
+
+FT.SEARCH bookIndex "Redis" SORTBY publish_date DESC LIMIT 0 2
+
+
+# 3. Aggregations
+
+## FT.AGGREGATE
+# Aggregates data for analytics (grouping, counting).
+# Example: Group books by genre and count each.
+
+FT.AGGREGATE bookIndex "*" GROUPBY 1 @genre REDUCE COUNT 0 AS count SORTBY 2 @count DESC
+
+
+# 4. Autocomplete Suggestions
+
+## FT.SUGADD
+# Adds an autocomplete suggestion to a dictionary.
+# Example: Add suggestions for "Redis in Action" and "The Great Gatsby".
+
+FT.SUGADD mySuggester "Redis in Action" 1.0
+FT.SUGADD mySuggester "The Great Gatsby" 0.8
+
+## FT.SUGGET
+# Retrieves autocomplete suggestions based on a prefix.
+# Example: Retrieve top 3 suggestions starting with "Red".
+
+FT.SUGGET mySuggester "Red" MAX 3
+
+
+# 5. Spell Checking
+
+## FT.SPELLCHECK
+# Suggests spelling corrections for terms in a search query.
+# Example: Correct misspelled "Rdeis Gtasby".
+
+FT.SPELLCHECK bookIndex "Rdeis Gtasby"
+
+
+# 6. Synonyms
+
+## FT.SYNUPDATE
+# Creates or updates a synonym group in the index.
+# Example: Treat "redis", "cache", "database" as synonyms.
+
+FT.SYNUPDATE bookIndex 1 "redis" "cache" "database"
+
+## FT.SYNDUMP
+# Lists all synonym groups for an index.
+# Example: Display synonyms in bookIndex.
+
+FT.SYNDUMP bookIndex

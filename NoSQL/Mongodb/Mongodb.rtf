@@ -1,0 +1,603 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2761
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;\f1\fnil\fcharset0 HelveticaNeue;\f2\fnil\fcharset0 Menlo-Bold;
+\f3\fnil\fcharset0 HelveticaNeue-Bold;\f4\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red255\green255\blue255;\red0\green0\blue0;
+\red57\green192\blue38;\red170\green171\blue37;\red0\green0\blue0;\red202\green51\blue35;\red22\green113\blue60;
+\red227\green233\blue230;\red47\green62\blue70;\red242\green245\blue247;}
+{\*\expandedcolortbl;;\csgray\c0;\cssrgb\c100000\c100000\c100000;\cssrgb\c0\c0\c0;
+\cssrgb\c25706\c77963\c19557;\cssrgb\c72331\c71682\c18599;\cssrgb\c0\c0\c0\c90196;\cssrgb\c83899\c28663\c18026;\cssrgb\c7059\c50980\c30196;
+\cssrgb\c90980\c92941\c92157;\cssrgb\c23922\c30980\c34510;\cssrgb\c96078\c96863\c97647;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww30040\viewh18340\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \CocoaLigature0 \
+Course Link\
+\
+   {\field{\*\fldinst{HYPERLINK "https://www.linkedin.com/learning/learning-mongodb-17360744/modern-database-and-application-design-with-mongodb?contextUrn=urn%3Ali%3AlyndaLearningPath%3A62325431498e28d12bf0bd33&u=88123954"}}{\fldrslt https://www.linkedin.com/learning/learning-mongodb-17360744/modern-database-and-application-design-with-mongodb?contextUrn=urn%3Ali%3AlyndaLearningPath%3A62325431498e28d12bf0bd33&u=88123954}}\
+\
+   Git repo : {\field{\*\fldinst{HYPERLINK "https://github.com/LinkedInLearning/introduction-to-mongodb-4315215"}}{\fldrslt https://github.com/LinkedInLearning/introduction-to-mongodb-4315215}}\
+\
+1.  brew tap mongodb/brew\
+2. brew install mongodb-community@8.0\
+3.  To start mongodb/brew/mongodb-community now and restart at login:\
+    Cmd: brew services start mongodb/brew/mongodb-community\
+4. run below command to use mongodb shell\
+   Cmd: mongosh\
+\
+   4.1 show dbs;\
+   4.2 exit \
+\
+5. Install mongodb-compass for UI\
+  Cmd:  brew install --cask mongodb-compass \
+5. Go to Application , you will see mongodb-compass.app, double click on that. You will see to add new connection click on that the click on connect. Now you are connected.\
+\
+6. You can import json from compass or local location\
+   \
+7. Goto local location : \
+   7.1 goto database you have created : /Users/gsingh04/Repos/introduction-to-mongodb-4315215/collections\
+       \
+   7.2 use below command to import json file.--db==database_name,--jsonArray \'93Json you want to upload\'94\
+       Cmd: mongoimport --db=Cooker --jsonArray recipes.json\
+\
+8. If you want to use mongoldb from commands\
+   8.1 run below command to connect mongosh\
+       Cmd: mongosh\
+   8.2 run below below command to connect to db, Cooker is db\
+       Cmd: use Cooker\
+\
+Question : {\field{\*\fldinst{HYPERLINK "https://www.linkedin.com/learning/learning-mongodb-17360744/how-you-need-to-think-differently?autoSkip=true&contextUrn=urn%3Ali%3AlyndaLearningPath%3A62325431498e28d12bf0bd33&resume=false&u=88123954#"}}{\fldrslt 
+\f1\fs24 \cf0 \cb3 \expnd0\expndtw0\kerning0
+\ul \ulc0 \CocoaLigature1 how to create a document and how to query documents.\'a0}}
+\f1\fs24 \cf0 \cb3 \expnd0\expndtw0\kerning0
+\ul \ulc0 \CocoaLigature1 \
+
+\f0\fs22 \cf2 \cb1 \kerning1\expnd0\expndtw0 \ulnone \CocoaLigature0 \
+9. Create Documente, Insert Doc from command line.\
+   9.1 mongosh\
+   9.2 use Cooker\
+   9.3 doc = \{\cf5 "title"\cf2 :\cf5 "Tocos"\cf2 ,\cf5 "desc"\cf2 :\cf5 "yummies tocos"\cf2 ,\cf6 cook_time\cf2 :\cf6 20\cf2 \}        // this will create document in json format with mentioned details\
+   9.4 db.tocos.insertOne(doc);     // insert doc into tocos, tocos is a collection in Cooker db, there can be many documents in a collection, this is javascript language \
+       \{\
+         acknowledged: \cf6 true\cf2 ,\
+         insertedId: ObjectId(\cf5 '670bde332662d2f89a307609'\cf2 )\
+       \}\
+   9.5 db.tocos.find();    // show details\
+        [\
+          \{\
+            _id: ObjectId(\cf5 '670bde332662d2f89a307609'\cf2 ),\
+            title: \cf5 'Tocos'\cf2 ,\
+            desc: \cf5 'yummies tocos'\cf2 ,\
+            cook_time: \cf6 20\cf2 \
+          \} \
+        ]\
+    9.6 Add new document doc2 in tocos collection\
+      9.6.1 doc2 = \{\cf5 "title\'94\cf2 :\cf5 \'94Dos Tocos"\cf2 ,\cf5 "desc"\cf2 :\cf5 "yummies tocos"\cf2 ,\cf6 cook_time\cf2 :\cf6 20\cf2 \}\
+      9.6.2 db.tocos.insertOne(doc2);\
+      9.6.3 db.tocos.find();    // it will show both documents doc and doc2 of collection tocos.\
+         [\
+          \{\
+            _id: ObjectId(\cf5 '670bde332662d2f89a307609'\cf2 ),\
+            title: \cf5 'Tocos'\cf2 ,\
+            desc: \cf5 'yummies tocos'\cf2 ,\
+            cook_time: \cf6 20\cf2 \
+         \},\
+         \{\
+           _id: ObjectId(\cf5 '670be0db2662d2f89a30760a'\cf2 ),\
+           title: \cf5 'Dos Tocos'\cf2 ,\
+           desc: \cf5 'yummies tocos'\cf2 ,\
+           cook_time: \cf6 20\cf2 \
+         \}\
+        ]\
+        \
+\
+== 
+\f1\fs24 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Using .find() to query documents\
+
+\f0\fs22 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\pard\pardeftab720\partightenfactor0
+The first parameter for find is a document. Not the document that you're trying to match but rather a query document. If you pass an empty query document that'll match all documents. The default is an empty document. For example, if we do DB dot recipes dot find and don't pass anything, we'll get a whole bunch of stuff back. If we ask for something specific, like where the title is equal to tacos, I will get just one recipe back.\
+\
+10. Show all documents of collection recipes \
+    10.1 db.recipes.find(\{\});                                  // To get back all the documents with just their title you could send an empty document in your search.\
+    10.2 db.recipes.find(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 \});                   // it will show only Tacos doc from recipes collection\
+    10.3 db.recipes.find(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 ,\cf5 "cook_time"\cf2 :\cf6 20\cf2 \});    // we can add more to get exact answer we are looking for\
+    10.4 db.recipes.find(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 \}, \{\cf5 "title"\cf2 :\cf6 1\cf2 \});      // 1 means true ex: \{\cf5 "title"\cf2 :\cf6 1\cf2 \} it will just show the only title back like this \'97\'97  [ \{ _id: ObjectId(\cf5 '5e5e9c470d33e9e8e3891b35'\cf2 ), title: \cf5 'Tacos'\cf2  \} ]\
+    10.5 db.recipes.find(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 \}, \{\cf5 "title"\cf2 :\cf6 0\cf2 \});     // You can also exclude fields. So instead of a one here \{\cf5 "title"\cf2 :\cf6 0\cf2 \}, we can make that a zero and it'll bring you back everything but not the title.\
+    10.6 db.recipes.find(\{\}, \{\cf5 "title"\cf2 :\cf6 1\cf2 \});                    // To get back all the documents with just their title you could send an empty document in your search.\
+    10.7 db.recipes.find(\{\cf5 "title"\cf2 : \{\cf6 $regex\cf2 : \cf8 /taco/i\cf2 \}\}, \{\cf5 "title"\cf2 :\cf6 1\cf2 \});   // But what if I need to search by a partial title? After all, a user of our website is unlikely to type out the exact recipe name. Do that. We use wildcard searches. It's akin to like a like statement in sequel. However, instead of using the percent sign, we use regular expressions. Because remember we're using a JavaScript shell in MongoDB. So we can use regular expressions just like you would in JavaScript. For example, we could do DB dot recipes dot find and this time it's going to look very similar. We're going to ask for title. But we're going to put another bracket here. And we're going to use this dollar sign reg ex. And a slash. I'm just going to write a regular expression here and an I here for case insensitive. And then we're just going to close out our result here. And you'll see we get back two different documents. Actually, it's kind of hard to see so let's use one of the tricks we learned earlier. So we have our query here. And I'm going to give it a second parameter of just title equals one. And now you could see it brought back two different recipes. Chicken soft tacos and tacos. In case you're wondering, we can also do searches on numeric ranges with greater than or less than or queries.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+      \
+    10.8 
+\fs24 db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).preaty()    // recipes is collection, below are documents of recipes.\
+   
+\fs18       
+\fs26 [\
+          \{ _id: ObjectId(\cf5 '5e6fd805fa98021236426a24'\cf2 ),title: \cf5 'Chicken Soft Tacos'\cf2  \},\
+          \{  _id: ObjectId(\cf5 '5e878f5220a4f574c0aa56db'\cf2 ),title: \cf5 'Maple Smoked Salmon'\cf2  \},\
+          \{ _id: ObjectId(\cf5 '5e877cba20a4f574c0aa56da'\cf2 ), title: \cf5 'Pancakes'\cf2  \},\
+          \{ _id: ObjectId(\cf5 '5e5e9c470d33e9e8e3891b35'\cf2 ), title: \cf5 'Tacos'\cf2  \},\
+          \{ _id: ObjectId(\cf5 '5e87856d07beb474c074c5ca'\cf2 ), title: \cf5 'Brown Sugar Meatloaf'\cf2  \},\
+          \{ _id: ObjectId(\cf5 '5edf1d313260aab97ea0d589'\cf2 ), title: \cf5 'Zucchini Brownies'\cf2  \},\
+          \{ _id: ObjectId(\cf5 '5edf1cd43260aab97ea0d588'\cf2 ), title: \cf5 'Apple Pie'\cf2  \}\
+       ]\
+11. There are some command to know\
+    
+\fs20 11.1 
+\fs26 show dbs;                    // it will show all database\
+    
+\fs20 11.2 
+\fs26 db.getName();                // this is will show, in which database you currently\
+    
+\fs20 11.3 
+\fs26 show collections             // this is will show, what are the collection inside current database\
+    
+\fs20 11.4 
+\fs26 db.profile.insertOne(\{\});    // this will create \'93profile\'94 empty collection inside current database
+\fs22 \
+    \
+12. There are also other collection options like cap collections, where we can tell MongoDB to only store a maximum amount of documents at any one time and will automatically delete the oldest documents in the collection to make room for a new one.\
+\
+13. 
+\f2\b Challenge: Create a recipe document\
+  
+\f0\b0  it's time for our first challenge. For this challenge, you'll need to use a new collection, create a new document for a recipe and that recipe should include at a minimum, certain fields. It should have a title, a description, a star rating, a food type tag, a user comments section, so that could be an array of objects, for example, and optionally directions and ingredients.\
+\
+14. There are some commands that helps in query.\
+    \
+    14.1 count(number),  we use this command after find() command in chain\
+          CMD: 
+\fs26 db.recipes.find(\{\}).count();  // return the number of collections inside current database\
+   
+\fs22 14.2 limit(number)                             // its will show, how many docs you want to see\
+         
+\fs24 db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).limit(\cf6 3\cf2 );\
+   14.3 sort()                  // Now sort will take a document in itself, where the key, being the field you want to sort by. So let's say, title and the value being which direction. So, one, meaning ascending. Negative one, meaning descending. \
+        
+\fs22  CMD: db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).sort(\{\cf5 "title"\cf2 :\cf6 1\cf2 \});  //  it will show title in ascending order \
+         CMD: 
+\fs24 db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).sort(\{\cf5 "title\'94\cf2 :-\cf6 1\cf2 \});  //  it will show title in descending order \
+        CMD
+\fs20 : 
+\fs26 db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).sort(\{\cf5 "title"\cf2 :-\cf6 1\cf2 \}).limit(\cf6 2\cf2 );  // we can add limit \
+        
+\fs22 CMD:
+\fs24  db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).sort(\{\cf5 "title\'94\cf2 :-\cf6 1\cf2 \}).count();   // we can add. Count  \
+   14.4 skip(number).   // how many title you want to skip from top\
+        Cmd: 
+\fs28 db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).sort(\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).skip(\cf6 1\cf2 );\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\fs32 \
+15. 
+\f3\b\fs28 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Working with operators and arrays
+\f0\b0 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\
+    Since MongoDB uses a JSON-like syntax for its queries, using some traditional operators like greater(>) than and less(<) than won't work. To avoid this problem, the query language uses strings with a dollar sign in front of them. No, this has nothing to do with money, but once you have some of these down you will be able to write much richer queries. How does this work? Well, for example, instead of greater than(>), we have $gt, and instead of less than (<) we have $lt. And instead of less than or equal (<=) to, we have $lte.\
+\
+\
+   15.1 cmd: 
+\fs32 db.recipes.find(\{\cf5 "cook_time"\cf2 :\{\cf6 $lt\cf2 :\cf6 30\cf2 \}\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \});   // show all docs which has cook_time less 30\
+
+\fs26    15.2 cmd:  
+\fs32 db.recipes.find(\{\cf5 "cook_time"\cf2 :\{\cf6 $lt\cf2 :\cf6 30\cf2 \},\cf5 "prep_time"\cf2 :\{\cf6 $lte\cf2 :\cf6 10\cf2 \}\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \});\
+  15.3 cmd: db.recipes.find(\{\cf6 $or\cf2  :[\{\cf5 "cook_time"\cf2 :\{\cf6 $lte\cf2 :\cf6 30\cf2 \},\cf5 "prep_time"\cf2 :\{\cf6 $lte\cf2 :\cf6 15\cf2 \}\}]\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \});   // we have or condition here, either cook time less than equals 30 minutes, or prep time less than equals to 15\
+\
+  15.4  if you want to search in a array\
+        Cmd: db.recipes.find(\{\cf5 "tags"\cf2 : \cf5 "easy"\cf2 \},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}); // if you want to just find tags(array) which has \'93easy\'94, tags = \{
+\fs24 \cf9 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 "mexican\'94,"quick\'94,"easy\'94,\cb10 "ground beef"
+\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \}\
+        cmd: db.recipes.find(\{\cf5 "tags"\cf2 : \{\cf6 $all\cf2 :[\cf5 "easy"\cf2 ,\cf5 "quick"\cf2 ]\}\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \});    // it will show recipes which has \cf5 "easy"\cf2  and \cf5 \'93quick"\
+        \cf2 cmd: db.recipes.find(\{\cf5 "tags"\cf2 : \{\cf6 $in\cf2 :[\cf5 \'93easy"\cf2 ,\cf5 "quick"\cf2 ]\}\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \});    // it will show recipes which has \cf5 "easy"\cf2  or \cf5 \'93quick"\
+ 
+\fs22 \cf2 \
+\
+
+\fs32 16. if we want to reach inside the data of an object or an array, we use dot notation.\
+     For that, let's take a look at the ingredients field. Here we have a complex object that has the name of our ingredient and quantity, et cetera. Now   if we want to get back all the recipes with exit them, we could simply use dot notation like so, ingredients.name and egg,
+\fs22 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\fs24 \cf9 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\fs22 \cf2 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\b\fs24 \cf11 \cb10 \expnd0\expndtw0\kerning0
+\CocoaLigature1 ingredients
+\f0\b0 :\'a0Array\'a0(7)\cb1 \
+\pard\pardeftab720\qc\partightenfactor0
+\cf11 \
+\pard\pardeftab720\partightenfactor0
+
+\f2\b \cf11 \cb3 0
+\f0\b0 :Object\cb1 \
+ 
+\f2\b \cb3 name
+\f0\b0 :\'a0\cf9 "egg"\
+\
+     
+\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 CMD: db.recipes.find(\{\cf5 "ingredients.name"\cf2 :\cf5 "egg"\cf2 \},\{\cf5 "title"\cf2 :\cf6 1\cf2 \});
+\fs22 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\
+\
+\
+17. 
+\f3\b\fs26 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Updating documents
+\f1\b0 \
+       17.1  To update title from \'93Pizza\'94 to \'93thin crust Pizza\'94\
+                 CMD:
+\f3\b   
+\f0\b0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 db.examples.updateOne(\{\cf5 "title\'94\cf2 :\cf5 Pizza\cf2 \},\{\cf6 $set\cf2 :\{\cf5 "title"\cf2 :\cf5 "thin crust Pizza"\cf2 \}\});\
+   17.2 if the update field is not present then it will add\
+      Cmd: db.examples.updateOne(\{\cf5 "title"\cf2 :\cf5 "thin crust Pizza"\cf2 \},\{\cf6 $set\cf2 :\{\cf5 "vegan"\cf2 :\cf6 false\cf2 \}\});\
+   17.3 To remove a field, we can use $unset and field as true\
+        Cmd: db.examples.updateOne(\{ \cf5 "title"\cf2 : \cf5 "thin crust Pizza"\cf2  \}, \{ \cf6 $unset\cf2 : \{ \cf5 "vegan"\cf2 : \cf6 true\cf2  \} \});\
+   17.4 To increament and decreament a filed without know the field value\
+         Cmd: db.examples.updateOne(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 \},\{ \cf6 $inc\cf2 : \{\cf5 "likes_count"\cf2 :\cf6 1\cf2 \}\});    // increament \
+         Cmd: db.examples.updateOne(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 \},\{ \cf6 $inc\cf2 : \{\cf5 "likes_count\'94\cf2 :-\cf6 1\cf2 \}\});    // decreament\
+\
+18.
+\f2\b\fs36  
+\f3\fs28 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Updating arrays : 
+\f1\b0 Working with fields that contain array data means we will need to use some different operators, push and pull. To add an item to an array, we can use push, which will push an item to the end of the array
+\f3\b \
+\
+        
+\f1\b0 18.1  To add a user id into likes array use \'93$push\'94\
+                Cmd: 
+\f0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 db.examples.updateOne(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 \},\{ \cf6 $push\cf2 : \{\cf5 "likes"\cf2 :\cf6 60\cf2 \}\});   // it will add user_id 60 into likes = [1,20,60]\
+   18.2 if we want to remove the user_id 60 from likes array, use \'93$pull\'94\
+      Cmd: 
+\f1\fs28 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Cmd: 
+\f0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 db.examples.updateOne(\{\cf5 "title"\cf2 :\cf5 "Tacos"\cf2 \},\{ \cf6 $pull\cf2 : \{\cf5 "likes"\cf2 :\cf6 60\cf2 \}\});   // it will add user_id 60 into likes = [1,20]\
+\
+19. 
+\f3\b\fs28 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Deleting documents: 
+\f1\b0 We have two option, delete one or many\
+         We have two basic options, delete one or delete many. Both take a filter document, like find in the update commands, for delete one, the first matching document in the collection is deleted. For delete many, all documents that match will be deleted. Obviously, if you're writing a query that you expect to only ever delete a single document, use delete one to be safe. You can provide the underscore ID or any other sort of filter
+\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\fs28 \cf7 \
+       19.1 Delete one\
+             Cmd: 
+\f0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0  db.examples.deleteOne(\{\cf5 "title"\cf2 :\cf5 "Delete me"\cf2 \});   // either we can give _id or title name to filter
+\f1\fs28 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+       \
+20. Chalenges\
+      1. First, we need a query that will bring back the top rated recipes, five being the highest rating. Base that off the ratings of Ray, but hint, explore the scheme of the documents and you'll probably see a ratings average field with the average already compiled for you. Use this to order results by the most popular, limited to four.\
+        Cmd: 
+\f0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 db.recipes.find(\{\},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).sort(\{\cf5 "rating_avg\'94\cf2 -1\}).limit(\cf6 4\cf2 );\
+  2. 
+\fs28 For challenge number two, once you have done that, write a query that uses the tags array field in our recipes to bring back the recipes tagged with Mexican, still ordered by top rated and limited to four.\
+     Cmd: 
+\fs32 db.recipes.find(\{\cf5 "tags"\cf2 :\{\cf6 $all\cf2 :[\cf5 "mexican"\cf2 ]\}\},\{\cf5 "title\'94\cf2 :-\cf6 1\cf2 \}).sort(\{\cf5 "rating_avg"\cf2 :\cf6 1\cf2 \}).limit(\cf6 4\cf2 );\
+    Or 
+\fs28 CMD
+\fs32 : db.recipes.find(\{\cf5 "tags"\cf2 :\cf5 "mexican"\cf2 \},\{\cf5 "title"\cf2 :\cf6 1\cf2 \}).sort(\{\cf5 "rating_avg"\cf2 :\cf6 1\cf2 \}).limit(\cf6 4\cf2 );\
+\
+  3. And the last challenge, write a brand new query that gets back all the recipes liked by user ID 1, sorted by the title with no limit.\
+     Cmd: db.recipes.find(\{\cf5 "likes"\cf2 :\{\cf6 $all\cf2 :[\cf6 1\cf2 ]\}\},\{\cf5 "title"\cf2 :\cf6 1\cf2 ,\cf5 "likes"\cf2 :\cf6 1\cf2 \}\}).sort(\{\cf5 "titles"\cf2 :\cf6 1\cf2 \});\
+\
+\
+Question:\
+ 1. 
+\f1 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 How should you list the recipes that have tags of both "easy" and "mexican"?\
+         Cmd: 
+\f4\fs24\fsmilli12250 \cb12 db.recipes.find(\{ "tags" : \{ $all: ["easy", "mexican"] \}\}, \{"title":1, "tags" :1\});   // 
+\f1\fs28 \cb3 In order to not look for an exact match for the array ["easy", "mexican"], we need to use \{ $all: ["easy", "mexican"] \}\}.
+\f4\fs24\fsmilli12250 \cb12 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+ 2. 
+\f1 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 You have a collection named "recipes" that contains a number of food recipes. How can you list the recipes that take less than 30 minutes to cook and less than 10 minutes to prepare?\
+     Cmd: 
+\f4\fs28\fsmilli14250 db.recipes.find(\{"cook_time" : \{$lte : 30\}, "prep_time" : \{$lte : 10\}\}, \{"title" : 1\});
+\fs24\fsmilli12250 \cb1 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\fs28 \cf7 \cb3   3. 
+\fs32 Which field update operator should you use to update a field in a document?
+\fs28 \
+       Cmd: $set      // Note that the $set operator is used to replace the value of a field with a specified value.\
+  \
+  4. 
+\fs32 You have a collection named "recipes" that contains a number of food recipes. How can you list all the recipes in ascending order?\
+       Cmd: 
+\f4\fs24\fsmilli12250 \cb12 db.recipes.find(\{\},\{"title": 1\}).sort(\{"title" : 1\});              // 
+\f1\fs28 \cb3 To list the recipes in descending order, use -1 instead of 1 in the "sort()" function.\
+\
+  5. 
+\fs32 You have a collection named "recipes" that contains a number of food recipes. How can you list only the first two recipes in the collection?\
+     Cmd: 
+\f4\fs24\fsmilli12250 \cb12 db.recipes.find(\{\},\{"title": 1\}).limit(2);        // 
+\f1\fs28 \cb3 You can list more or less of the total list by varying the number sent to the "limit()" function.
+\f0\fs22 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+ \
+\
+ 
+\fs30 6. 
+\f1\fs32 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Which collection method should you use to delete a single file document?\
+        Cmd: 
+\f4\fs24\fsmilli12250 \cb12 db.collection.deleteOne()    // 
+\f1\fs28 \cb3 This method is used to delete the first matching document from a collection.\
+  \
+  7. 
+\fs32 Which array update operator should you use to add an item to an array?\
+      Cmd: 
+\fs28 $push      // 
+\fs32 \cb1 you can use the $push operator to add an element in an array.\
+ \
+ 8. 
+\fs28 \cb3 7. 
+\fs32 Which array update operator should you use to remove an item from an array?\
+      Cmd: 
+\fs28 $pull      // Conversely, you can use the $pull operator to remove an element from an array.
+\fs32 \cb1 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\partightenfactor0
+\ls1\ilvl0\cf7 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf7 \cb3 \
+ 
+\fs36 \
+21. 
+\f3\b\fs32 How you need to think differently
+\f1\b0\fs24 \
+
+\fs32         MongoDB likes to say, data that is accessed together should be stored together, meaning if you're going to be reading or writing data together, it is usually a good idea to store them together. Instead of storing data in two different places you should be thinking about how you might be able to embed one of those pieces of data inside the other.\
+\
+22.  The important part here is under execution stats. You could see a total docs examined with below command.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0    Cmd: db.recipes.find(\{\cf6 cook_time\cf2 :\cf6 10\cf2 \},\{\cf6 title\cf2 :\cf6 1\cf2 \}).explain(\cf5 "executionStats\'94\cf2 );\\\
+\
+Below commands we can perform on a collection\
+\
+db.recipes.__proto__                        db.recipes.constructor                      db.recipes.hasOwnProperty\
+db.recipes.isPrototypeOf                    db.recipes.propertyIsEnumerable             db.recipes.toLocaleString\
+db.recipes.toString                         db.recipes.valueOf                          db.recipes.aggregate\
+db.recipes.bulkWrite                        db.recipes.countDocuments                   db.recipes.deleteMany\
+db.recipes.deleteOne                        db.recipes.distinct                         db.recipes.estimatedDocumentCount\
+db.recipes.find                             db.recipes.findOne                          db.recipes.renameCollection\
+db.recipes.findOneAndDelete                 db.recipes.findOneAndReplace                db.recipes.findOneAndUpdate\
+db.recipes.insertMany                       db.recipes.insertOne                        db.recipes.isCapped\
+db.recipes.replaceOne                       db.recipes.updateMany                       db.recipes.updateOne\
+db.recipes.compactStructuredEncryptionData  db.recipes.convertToCapped                  db.recipes.createIndexes\
+db.recipes.createIndex                      db.recipes.ensureIndex                      db.recipes.getIndexes\
+db.recipes.getIndexSpecs                    db.recipes.getIndices                       db.recipes.getIndexKeys\
+db.recipes.dropIndexes                      db.recipes.dropIndex                        db.recipes.totalIndexSize\
+db.recipes.getDB                            db.recipes.getMongo                         db.recipes.dataSize\
+db.recipes.storageSize                      db.recipes.totalSize                        db.recipes.drop\
+db.recipes.exists                           db.recipes.getFullName                      db.recipes.getName\
+db.recipes.runCommand                       db.recipes.explain                          db.recipes.stats\
+db.recipes.latencyStats                     db.recipes.initializeOrderedBulkOp          db.recipes.initializeUnorderedBulkOp\
+db.recipes.getPlanCache                     db.recipes.validate                         db.recipes.hideIndex\
+db.recipes.unhideIndex                      db.recipes.getSearchIndexes                 db.recipes.createSearchIndex\
+db.recipes.createSearchIndexes              db.recipes.dropSearchIndex                  db.recipes.updateSearchIndex
+\fs22 \
+\
+\
+\
+\
+
+\fs26 23.
+\fs22  
+\f2\b\fs26 So how do we create an index?
+\f0\b0\fs22 \
+     
+\fs28 23.1
+\fs22  
+\fs32 db.recipes.createIndex(\{\cf5 "title\'94\cf2 :\cf6 1\cf2 \});\
+   
+\f2\b 23.2
+\f0\b0  db.recipes.getIndex();
+\fs22 \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f2\b\fs26 24 
+\f3\fs28 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Using different collection types\
+         1. Cap collection\
+         2. Time series collection\
+      24.1 
+\f0\b0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0  db.createCollection(\cf5 "error_log"\cf2 ,\{\cf6 capped\cf2 :\cf6 true\cf2 ,\cf6 size\cf2 :\cf6 10000\cf2 ,\cf6 max\cf2 :\cf6 10000\cf2 \});  // this is how you can create error_log using cap collection
+\f1\fs24 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\
+\
+\
+25 Question\
+   We have a list of backers that has user ID, first name, last name, email, and a backing level. We have a separate list of shipping addresses with a user ID, street name, city, zip state, et cetera. And then lastly, have a completely separate list that has user ID and an item name of their backer reward. And the user may have one or more of these items. So how can we take these different bits of data and instead of say putting them in different tables and joining 'em together, store them in a single document, that is a document for each backer.\
+\
+      backers List\
+        user ID\
+        first name\
+        last name\
+        email\
+        backing level \
+\
+      addresses List\
+         user ID\
+         street name\
+         city\
+         zip state\
+\
+      backer reward List\
+         user ID\
+         item name\
+\
+\
+ Explanation : backers is collection and shipping address should be object and rewards should be an array. We create object with curly brace\{\} and array with square brackets. Object has key value pair where array has just value. See the below example \
+   Cmd: 
+\fs32  db.bakers.insertOne(\{\cf5 "user_id"\cf2 :\cf6 1\cf2 ,\cf6 fisrt_name\cf2 :\cf5 "Golu"\cf2 ,\cf6 last_name\cf2 :\cf5 "singh"\cf2 ,\cf6 email\cf2 :\cf5 "golu@gmail.com"\cf2 ,\cf6 backing_level\cf2 :\cf6 1\cf2 ,\cf6 shipping_address\cf2 :\{\cf6 street_name\cf2 :\cf5 "123 gachibowli hyd"\cf2 ,\cf6 city\cf2 :\cf5 "mumbai"\cf2 ,\cf6 state\cf2 :\cf5 "maharastra"\cf2 ,\cf6 zip\cf2 :\cf6 12345\cf2 \},\cf5 "rewars"\cf2 :[\cf5 "book"\cf2 ,\cf5 "beach towel"\cf2 ]\});\
+\
+   Or we can store in document and then insert the document.\
+      1.  becker2=\{\cf5 "user_id"\cf2 :\cf6 1\cf2 ,\cf6 fisrt_name\cf2 :\cf5 "sumit"\cf2 ,\cf6 last_name\cf2 :\cf5 "singh"\cf2 ,\cf6 email\cf2 :\cf5 "sumit@gmail.com"\cf2 ,\cf6 backing_level\cf2 :\cf6 1\cf2 ,\cf6 shipping_address\cf2 :\{\cf6 street_name\cf2 :\cf5 "124 gachibowli hyd"\cf2 ,\cf6 city\cf2 :\cf5 "mumbai"\cf2 ,\cf6 state\cf2 :\cf5 "maharastra"\cf2 ,\cf6 zip\cf2 :\cf6 12355\cf2 \},\cf5 "rewars"\cf2 :[\cf5 "book"\cf2 ,\cf5 "beach towel"\cf2 ]\};\
+      \
+      2. db.bakers.insertOne(becker2);\
+\
+25. 
+\f1 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 Which collection method should you use to remove an index?\
+         Cmd: 
+\f4\fs24\fsmilli12250 \cb12 db.collection.dropIndex()       // 
+\f1\fs28 \cb3 You can also use "dropIndexes()" to drop one or many specified indexes.
+\f0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+       
+\fs22 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f2\b\fs28 26. 
+\f3\fs30 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 How to use GridFS to store files?
+\f1\b0\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+       You can not only store documents in MongoDB, you can store entire files. This opens up a lot of possibilities, not only for better organization but also application features. To do this, MongoDB uses what's called GridFS, a technology that will break up the contents of the file into chunks each stored in its own document and also store the information about the file itself in a sort of parent document. When you need the file back, MongoDB will simply stream the chunks back to you. A great way to get started with GridFS is to use the mongofiles binary that's included with the database tools.\
+\
+    
+\fs28  1. How to upload image to mongodb?\
+        # goto image folder and run this command \
+       a. 
+\fs32  mongofiles put apple-pie.jpg --db=files
+\fs22   // it will upload image to fils db, we can upload pdf as well, just give the pdf file name instead image name\
+         
+\f2\b\fs28 b.
+\f0\b0\fs22  
+\fs32  mongofiles list \'97db=files \'97quiet   // it will show the upload image to file db\
+      c. mongofiles delete apple-pie.jpg --db=files
+\fs22   
+\fs32   // it will delete the image from file db\
+       d. mongofiles get apple-pie.jpg --db=files
+\fs22   
+\fs32   // it will download the image from file db to local \
+\
+27. 
+\f3\b \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 What is MongoDB-GridFS?\
+          
+\f1\b0\fs28 A technology that breaks up file contents into chunks in the form of documents. GridFS is used to deal with files that exceed the BSON size limit.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\b\fs34 \cf7 28. 
+\fs30 MongoDB config file\
+        Cmd: 
+\f0\b0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0  mongod --config=mongod.conf\
+\
+29. Server Administration\
+    1. Mongodb config file\
+    2. Replica\
+    3. Sharding\
+    4. Authentication and authorisation\
+    5. Backup	\
+\
+\
+Questions:\
+ 1. 
+\f1 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 How should you describe authorization?\
+        - 
+\f0 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 	
+\f1\fs28 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1 determining and controlling what resources an authenticated user can use  // This can also be referred to as role-based access control.\
+ \
+   2.\
+\
+   3. 
+\fs32 How can you force MongoDB to halt writes when creating backups?\
+      - 
+\f4\fs24\fsmilli12250 \cb12 db.fsyncLock();   // 
+\f1\fs28 \cb3 You will have to use "db.fsyncUnlock()" once you have created your backups.\
+   4. 
+\fs32 What line(s) should be present in your mongod.cfg to enable access control? \
+       
+\fs38  
+\f4\fs30\fsmilli15250 \cb12 security:     \
+\pard\pardeftab720\partightenfactor0
+\cf7      authorization: enabled
+\fs24\fsmilli12250 \
+\
+  
+\fs34\fsmilli17250 5.
+\fs24\fsmilli12250  
+\f1\fs32 \cb3 What entry do you need in your config file to require role-based authentication?\
+           
+\f4\fs30\fsmilli15250 \cb12 security:    \
+     authorization: enabled
+\fs24\fsmilli12250 \
+\
+\
+ 
+\fs34\fsmilli17250  6.
+\fs24\fsmilli12250  
+\f1\fs32 \cb3 Which config file setting will ensure that MongoDB will run as a background process by default?\
+        
+\fs38    
+\f4\fs30\fsmilli15250 \cb12 processManagement:           // 
+\f1\fs34 \cb3 Note that MongoDB is not forked by default, so this edit is required if you need it to be.
+\f4\fs30\fsmilli15250 \cb12 \
+       fork: true
+\fs24\fsmilli12250 \
+\
+   
+\fs30\fsmilli15250 7.
+\fs24\fsmilli12250  
+\f1\fs32 \cb3 How should you describe sharding?\
+           - 
+\fs28 partitioning data across multiple servers. // Unlike replication, sharding does not copy the whole data set.\
+\
+      8. 
+\fs32 How should you describe a replica set in MongoDB?\
+          - 
+\fs28 a set of identical data nodes where one is the primary node and the other(s) are secondary nodes        // The secondary nodes offer redundancy and increase data availability.
+\f0\fs32 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f3\b\fs30 \cf7 \cb3 \expnd0\expndtw0\kerning0
+\CocoaLigature1     \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f1\b0\fs24 \cf7 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf2 \cb1 \kerning1\expnd0\expndtw0 \CocoaLigature0 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\
+}
